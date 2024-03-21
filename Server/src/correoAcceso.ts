@@ -40,7 +40,7 @@ function enviarCorreo(body: any) {
         bbc: "",
         subject: "Testing!",
         attachment: [
-            {data: `<a href="https://localhost:4200/reestablecerContrasena/${token}">Click Aquí<a/>`, alternative: true }
+            {data: `<a href="http://localhost:4200/reestablecerContrasena/${token}">Click Aquí<a/>`, alternative: true }
         ]
     };
 
