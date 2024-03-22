@@ -16,6 +16,12 @@
                             <input class="browser-default" type="password" name="password" id="password" [(ngModel)]="nuevaContrasena" placeholder="contraseña" autocomplete="off">
 
                         </div>
+                        <div class="col s12 customInput">
+                            <label>Ingrese de nuevo su nueva contraseña</label>
+                            <i class="material-icons prefix">vpn_key</i>
+                            <input class="browser-default" type="password" name="password" id="password" [(ngModel)]="nuevaContrasenaConfirmacion" placeholder="contraseña" autocomplete="off">
+
+                        </div>
                         <br>
                         <div class="row">
                             <button (click)="actualizarContrasena()" class="btn col l12 s12 m12 btnLogin ">ACEPTAR</button>

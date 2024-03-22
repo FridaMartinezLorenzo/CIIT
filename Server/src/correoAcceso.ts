@@ -15,8 +15,6 @@ import jwt from 'jsonwebtoken';
 dotenv.config();
 
 var email = require("emailjs/email");
-console.log("Hi from emailAccess");
-console.log(process.env.TOKEN_SECRET);
 
 function enviarCorreo(body: any) { 
     var server = email.server.connect( {

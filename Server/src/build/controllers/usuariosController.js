@@ -134,7 +134,7 @@ class UsuariosController {
             const decoded = decodeJWT(token);
             console.log(decoded);
             const salt = yield bcryptjs_1.default.genSalt(10);
-            req.body.Contrasena = yield bcryptjs_1.default.hash(req.body.Contrasena, salt);
+            req.body.contrasena = yield bcryptjs_1.default.hash(req.body.contrasena, salt);
             const resp = yield database_1.default.query("UPDATE usuarios set ? WHERE correo = ?", [req.body, decoded]);
             res.json(resp);
         });

@@ -109,7 +109,7 @@ public async actualizarContrasena(req: Request, res: Response): Promise<void> {
     console.log(decoded);
 
     const salt = await bcrypt.genSalt(10);
-    req.body.Contrasena = await bcrypt.hash(req.body.Contrasena, salt)
+    req.body.contrasena = await bcrypt.hash(req.body.contrasena, salt)
     const resp = await pool.query("UPDATE usuarios set ? WHERE correo = ?", [req.body, decoded]);
     res.json(resp);
 }

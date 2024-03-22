@@ -12,8 +12,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 dotenv_1.default.config();
 var email = require("emailjs/email");
-console.log("Hi from emailAccess");
-console.log(process.env.TOKEN_SECRET);
 function enviarCorreo(body) {
     var server = email.server.connect({
         user: "webproyecto03@gmail.com",

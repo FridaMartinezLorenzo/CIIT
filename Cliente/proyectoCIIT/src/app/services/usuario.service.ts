@@ -34,5 +34,9 @@ return this.http.put(`${environment.API_URI}/usuarios/actualizarUsuario/${usuari
 usuario);
 }
 
+actualizarContrasena(token:any, contrasena:any){
+  return this.http.put(`${environment.API_URI}/usuarios/reestablecerContrasena/${token}`,{"contrasena":contrasena});
+}
+
 
 }
