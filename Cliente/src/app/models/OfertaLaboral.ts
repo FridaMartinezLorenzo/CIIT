@@ -17,4 +17,13 @@ export class OfertaLaboral{
         this.description='';
         this.horario=''
     }
+     atributoVacioONulo(obj: OfertaLaboral): boolean {
+
+        if (  obj.salario ==null || obj.puesto == '' || obj.position == ''  || obj.descripcion == '' || obj.description == '' || obj.horario == '') 
+            {
+            return false;
+        }
+
+        return true;
+    }
 }
