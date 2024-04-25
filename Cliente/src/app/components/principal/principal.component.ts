@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
-
+import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
 declare var M: any; // Declarar M para acceder a Materialize desde TypeScript
 
 @Component({
@@ -9,9 +9,15 @@ declare var M: any; // Declarar M para acceder a Materialize desde TypeScript
 })
 export class PrincipalComponent implements OnInit, AfterViewInit {
 
-  constructor(private el: ElementRef) { 
+  idioma: any = 2;
+  constructor(private el: ElementRef,private cambioIdiomaService: CambioIdiomaService) { 
     console.log("estoy en constructor de principal")
-    localStorage.setItem("idioma","1")
+    this.idioma = 2;
+        this.cambioIdiomaService.currentMsg$.subscribe(
+            (msg) => {
+                this.idioma = msg;
+                console.log("idioma actual:", this.idioma, " aaaa");
+            });
   }
 
   ngOnInit(): void {

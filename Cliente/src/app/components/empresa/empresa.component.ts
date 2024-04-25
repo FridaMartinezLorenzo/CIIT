@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
 declare var $: any;
 import { ImagenesService } from 'src/app/services/imagenes.service';
+import { environment } from 'src/environments/environment';
 @Component({
     selector: 'app-empresa',
     templateUrl: './empresa.component.html',
@@ -18,13 +19,14 @@ export class EmpresaComponent implements OnInit {
     p = 1;
     idioma: any = 2;
     liga = '';
-    imgUsuario: any;
+    imgEmpresa: any;
     fileToUpload: any;
     imagenActualizada = false;
     imagenUrls: { [id: number]: string } = {};
 
     constructor(private imagenesService: ImagenesService,private empresaService: EmpresaService, private cambioIdiomaService: CambioIdiomaService) {
         this.idioma = 2;
+        this.liga = environment.API_URI_IMAGES;
         this.cambioIdiomaService.currentMsg$.subscribe(
             (msg) => {
                 this.idioma = msg;
@@ -233,6 +235,23 @@ export class EmpresaComponent implements OnInit {
             this.empresa.fecha = date;
         }
     }
+    mostrarImagen(id_empresa: any) {
+        this.imgEmpresa = null;
+        this.fileToUpload = null;
+        this.empresaService.listOne(id_empresa).subscribe((resEmpresa: any) => {
+          this.empresa = resEmpresa;
+          console.log("Empresa con ID: ", this.empresa.id_empresa);
+          $('#Imagen').modal();
+          $("#Imagen").modal("open");
+        }, err => console.error(err));
+      }
+      cargandoImagen(archivo: any) {
+        //this.usuario.fotito = 0;
+        this.imgEmpresa = null;
+        this.fileToUpload = null;
+        this.fileToUpload = archivo.files.item(0);
+        console.log("convirtiendo imagen");
+      }
 
     getFileBlob(file: any) {
         var reader = new FileReader();
@@ -250,7 +269,7 @@ export class EmpresaComponent implements OnInit {
       }
 
       guardandoImagen() {
-        // this.imgUsuario = null;
+        // this.imgEmpresa = null;
         //this.fileToUpload = null;
         let imgPromise = this.getFileBlob(this.fileToUpload);
         imgPromise.then(blob => {
@@ -260,13 +279,13 @@ export class EmpresaComponent implements OnInit {
           
           this.imagenesService.guardarImagen(this.empresa.id_empresa, "empresas", blob).subscribe(
             (res: any) => {
-              this.imgUsuario = blob;
+              this.imgEmpresa = blob;
               console.log("empresa id: ", this.empresa.id_empresa);
               
               // Actualizar la URL de la imagen solo para el usuario actual
     
               this.imagenActualizada = true; // Aquí se marca la imagen como actualizada
-              this.empresaService.actualizarFotito(this.empresa.id_empresa).subscribe((resempresa: any) => {
+              this.empresaService.actualizarFotito(this.empresa).subscribe((resempresa: any) => {
                 console.log("fotito: ", resempresa);
                 this.empresa.fotito = 2;
                 if (this.empresa.fotito === 2) {
