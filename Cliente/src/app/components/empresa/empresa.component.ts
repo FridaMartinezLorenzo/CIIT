@@ -246,6 +246,7 @@ export class EmpresaComponent implements OnInit {
         }, err => console.error(err));
       }
       cargandoImagen(archivo: any) {
+
         //this.usuario.fotito = 0;
         this.imgEmpresa = null;
         this.fileToUpload = null;
@@ -269,52 +270,51 @@ export class EmpresaComponent implements OnInit {
       }
 
       guardandoImagen() {
-        // this.imgEmpresa = null;
-        //this.fileToUpload = null;
-        let imgPromise = this.getFileBlob(this.fileToUpload);
-        imgPromise.then(blob => {
+        if (!this.fileToUpload || this.fileToUpload.size === 0) {
+            const errorMessage = (this.idioma === 1) ? "No has seleccionado ninguna imagen" : "You have not selected any image";
+            
+            Swal.fire({
+              title: "Error",
+              text: errorMessage,
+              icon: "error"
+            });
+            return; // Salir de la función si la imagen está vacía
+          }
+        
           console.log(this.empresa.id_empresa);
-          //this.usuario.fotito = 2; 
-    
           
-          this.imagenesService.guardarImagen(this.empresa.id_empresa, "empresas", blob).subscribe(
-            (res: any) => {
-              this.imgEmpresa = blob;
-              console.log("empresa id: ", this.empresa.id_empresa);
-              
-              // Actualizar la URL de la imagen solo para el usuario actual
-    
+          const imgPromise = this.getFileBlob(this.fileToUpload);
+          imgPromise.then(blob => {
+            this.imagenesService.guardarImagen(this.empresa.id_empresa, "empresas", blob).subscribe(
+              (res: any) => {
+                this.imgEmpresa = blob;
+                console.log("empresa id: ", this.empresa.id_empresa);
+              },
+              err => console.error(err));
+                
+            // Actualizar la URL de la imagen solo para el usuario actual
+            if (this.fileToUpload != null || this.imgEmpresa != null){ 
               this.imagenActualizada = true; // Aquí se marca la imagen como actualizada
               this.empresaService.actualizarFotito(this.empresa).subscribe((resempresa: any) => {
                 console.log("fotito: ", resempresa);
-                this.empresa.fotito = 2;
-                if (this.empresa.fotito === 2) {
-                  console.log(this.liga);
-                  
-                  //this.liga= environment.API_URI_IMAGES + '/usuarios/' + this.usuario.id + '.jpg?t=';
-                  //console.log("liga de los amigos: ",this.liga);
-                  
-                }
               }, err => console.error(err));
+            }
+          });
+        
     
-            },
-            err => console.error(err)
-          );
-        });
-    
-        if(this.idioma==1){
-          Swal.fire({
-            title: "Updated",
-            text: "Your image has been updated",
-            icon: "success",didClose:()=>{window.location.reload();}
-    
-          });}else{
-            Swal.fire({
-              title: "Actualizado",
-              text: "Tu imagen se ha actualizado",
-              icon: "success",didClose:()=>{window.location.reload();}
-            });
-    
-        }
+            if(this.idioma==1){
+              Swal.fire({
+                title: "Updated",
+                text: "Your image has been updated",
+                icon: "success",didClose:()=>{window.location.reload();}
+            
+              });}else{
+                Swal.fire({
+                  title: "Actualizado",
+                  text: "Tu imagen se ha actualizado",
+                  icon: "success",didClose:()=>{window.location.reload();}
+                });
+            
+            }
       }
 }
