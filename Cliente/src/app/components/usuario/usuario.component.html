@@ -80,19 +80,22 @@
           <input [(ngModel)]="usuario.correo" type="text" class="validate">
         </div>
         <div class="row col s12">
-          <label class="active">Rol</label>
+          <label class="active">{{'Rol'|translate}}</label>
           <select [(ngModel)]='usuario.id_Rol' class="browser-default"> <!-- broser-default porque es un arreglo-->
-            <option *ngFor="let rol of roles" [value]="rol.id_rol">
-              <!--Para poner el valor de cada elemento del arreglo-->
-              {{rol.nombre_rol}}
-            </option>
+            <ng-container *ngFor="let rol of roles">                    
+              <option [value]="rol.id_rol">
+              <div *ngIf="idioma==2; then thenBlock; else elseBlock"></div>
+                  <ng-template #thenBlock>{{rol.name_rol}}</ng-template>
+                  <ng-template #elseBlock>{{rol.nombre_rol}}</ng-template>
+              </option>
+            </ng-container>
           </select>
         </div>
       </div>
       <div class="row">
         <div class="col s6 center">
-          <input type="submit" class="waves-effect btn-large brown lighten-3 modal-close"
-            (click)="guardarActualizarUsuario()" value="{{'Enviar'|translate}}">
+          <a class="waves-effect btn-large brown lighten-3 modal-close black-text"
+            (click)="guardarActualizarUsuario()" >{{'Enviar'|translate}} </a>
         </div>
         <div class="col s6 center">
           <a class="modal-action modal-close waves-effect btn-large brown lighten-3
@@ -124,10 +127,13 @@
         <div class="input-field col s6">
           <label class="active">Rol</label>
            <select [(ngModel)]='usuarioNuevo.id_Rol' class="browser-default"> <!-- broser-default porque es un arreglo-->
-            <option *ngFor="let rol of roles" [value]="rol.id_rol">
-              <!--Para poner el valor de cada elemento del arreglo-->
-              {{rol.nombre_rol}}
-            </option>
+            <ng-container *ngFor="let rol of roles">                    
+              <option [value]="rol.id_rol">
+              <div *ngIf="idioma==2; then thenBlock; else elseBlock"></div>
+                  <ng-template #thenBlock>{{rol.name_rol}}</ng-template>
+                  <ng-template #elseBlock>{{rol.nombre_rol}}</ng-template>
+              </option>
+            </ng-container>
           </select>
         </div>
         <div class="input-field col s6">
@@ -137,7 +143,7 @@
       </div>
       <div class="row">
         <div class="col s6 center">
-          <button (click)="guardarNuevoUsuario()" class="waves-effect btn-large brown lighten-3 modal-close">{{'Enviar'|translate}}</button>
+          <button (click)="guardarNuevoUsuario()" class="waves-effect btn-large brown lighten-3 modal-close black-text">{{'Enviar'|translate}}</button>
         </div>
         <div class="col s6 center">
           <a class="modal-action modal-close waves-effect btn-large brown lighten-3

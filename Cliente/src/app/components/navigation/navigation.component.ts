@@ -53,7 +53,7 @@ this.cambioIdiomaService.sendMsg(idioma);
       this.enviarMensajeIdioma(2);
       localStorage.setItem("idioma","2")
     }
-      
+    window.location.reload(); 
   }
 
 }
