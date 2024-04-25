@@ -26,15 +26,16 @@ class Server {
     }
     routes() {
         this.app.post('/uploadImagen', (req, res) => {
-            console.log("upload imageeee", req.body.id);
+            //console.log(req.body);
+            //console.log("upload imageeee", req.body.id);
             const file = req.body.src;
             const name = req.body.tipo;
             const id = req.body.id;
             const binaryData = Buffer.from(file.replace(/^data:image\/[a-z]+;base64,/, ""), 'base64').toString('binary');
             fs_1.default.writeFile(`${__dirname}/imagenes/` + name + '/' + id + '.jpg', binaryData, "binary", (err) => {
-                console.log(err);
+                //console.log(err);
             });
-            console.log(res);
+            //console.log(res);
             res.json({ fileName: id + '.jpg' });
         });
     }

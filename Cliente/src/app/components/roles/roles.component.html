@@ -35,8 +35,12 @@
     <div style="border: .5px solid #78909c; padding: 10px;">
       <div class="row">
         <div class="input-field col s12">
-          <label class="active" for="nombre_rol">{{"Nombre" | translate}} </label>
+          <label class="active" for="nombre_rol">Nombre</label>
           <input id="nombre_rol" [(ngModel)]="rol.nombre_rol" type="text" class="validate">
+        </div>
+        <div class="input-field col s12">
+          <label class="active" for="nombre_rol">Name</label>
+          <input id="nombre_rol" [(ngModel)]="rol.name_rol" type="text" class="validate">
         </div>
       </div>
       <div class="row">
