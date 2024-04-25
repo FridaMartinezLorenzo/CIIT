@@ -9,10 +9,14 @@ declare var M: any; // Declarar M para acceder a Materialize desde TypeScript
 })
 export class PrincipalComponent implements OnInit, AfterViewInit {
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef) { 
+    console.log("estoy en constructor de principal")
+    localStorage.setItem("idioma","1")
+  }
 
   ngOnInit(): void {
     // No inicialices el carrusel aquí
+    console.log("oninit de principal")
   }
 
   ngAfterViewInit(): void {

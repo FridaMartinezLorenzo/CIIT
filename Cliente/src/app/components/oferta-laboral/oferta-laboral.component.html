@@ -8,11 +8,9 @@
     itemsPerPage: pageSize,
     currentPage: p
     };let i=index">
-    <td *ngIf="idioma==2">{{oferta.position}}</td>
-    <td *ngIf="idioma==1">{{oferta.puesto}}</td>
+    <td>{{oferta.puesto}}</td>
     <td>{{oferta.salario}}</td>
-    <td *ngIf="idioma==2">{{oferta.description}}</td>
-    <td *ngIf="idioma==1">{{oferta.descripcion}}</td>
+    <td>{{oferta.descripcion}}</td>
     <td>{{oferta.horario}}</td>
 
     <td><a href="javascript: void(0);" class="space" (click)="actualizarOferta(oferta.idOferta)">
@@ -30,12 +28,12 @@
 
 <div id="modalModificarOferta" class="modal">
   <div class="modal-content">
-    <h2>{{"Actualización de oferta"|translate}}</h2>
+    <h2>{{"Actualización de oferta" | translate}}</h2>
     <form>
       <div class="row s8">
         <i class="material-icons prefix">domain</i>
         
-        <label class="active">Empresa</label>
+        <label class="active">{{"Empresa" | translate}}</label>
           <select [(ngModel)]='oferta.id_empresa' class="browser-default" name="empresa"> <!-- broser-default porque es un arreglo-->
             <option *ngFor="let empresa of empresas" [value]="empresa.id_empresa" > <!--Para poner el valor de cada elemento del arreglo-->
               {{empresa.nombre_empresa}}
@@ -46,27 +44,27 @@
       <div class="input-field">
         <i class="material-icons prefix">account_circle</i>
         <input [(ngModel)]="oferta.puesto" type="text" id="nombreNuevo" name="nombreNuevo" required>
-        <label for="nombreNuevo" class="active">Puesto</label>
+        <label for="nombreNuevo" class="active">{{"Puesto" | translate}}</label>
       </div>
 
       <div class="input-field">
         <i class="material-icons prefix">attach_money</i>
         <input [(ngModel)]="oferta.salario" type="text" id="correoNuevo" name="correoNuevo" required>
-        <label for="correoNuevo" class="active">Salario</label>
+        <label for="correoNuevo" class="active">{{"Salario" | translate}}</label>
       </div>
 
       <div class="input-field">
         <i class="material-icons prefix">chat</i>
         <input [(ngModel)]="oferta.descripcion" type="text" id="telefonoNuevo" name="telefonoNuevo"
           pattern="[0-9]{10}" required>
-        <label for="telefonoNuevo" class="active">descripcion</label>
+        <label for="telefonoNuevo" class="active">{{"descripcion" | translate}}</label>
       </div>
 
       <div class="input-field">
         <i class="material-icons prefix">event</i>
         <input [(ngModel)]="oferta.horario" type="text" id="passwordNuevo" name="passwordNuevo"
           required>
-        <label for="passwordNuevo" class="active">Horario</label>
+        <label for="passwordNuevo" class="active">{{"Horario" | translate}}</label>
       </div>
 
     </form>
@@ -76,7 +74,7 @@
       <div class="col s6 center">
         <a (click)="guardarActualizarOferta()">
           <button class="waves-effect btn-large red lighten-1 white-text modal-close" type="submit">
-            Registrar
+            {{"Enviar" | translate}}
             <i class="material-icons right">send</i>
           </button>
         </a>
@@ -84,7 +82,7 @@
 
       <div class="col s6 center">
         <button class="modal-action modal-close waves-effect btn-large red lighten-1 white-text"
-          type="submit">cancelar
+          type="submit">{{"Cancelar" | translate}}
           <i class="material-icons right">cancel</i>
         </button>
       </div>

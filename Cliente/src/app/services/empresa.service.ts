@@ -24,5 +24,9 @@ export class EmpresaService {
         console.log("Eliminando una empresa");
         return this.http.delete(`${environment.API_URI}/empresas//eliminarEmpresa/${id_empresa}`, id_empresa);
     }
+    actualizarFotito(empresa:any){
+    return this.http.put(`${environment.API_URI}/empresas/actualizarFotito/${empresa.id_empresa}`,
+    empresa);
+    }
 
 }

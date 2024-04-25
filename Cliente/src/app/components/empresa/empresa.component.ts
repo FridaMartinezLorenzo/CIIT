@@ -4,7 +4,7 @@ import { Empresa } from 'src/app/models/Empresa';
 import Swal from 'sweetalert2';
 import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
 declare var $: any;
-
+import { ImagenesService } from 'src/app/services/imagenes.service';
 @Component({
     selector: 'app-empresa',
     templateUrl: './empresa.component.html',
@@ -17,8 +17,13 @@ export class EmpresaComponent implements OnInit {
     pageSize = 2;
     p = 1;
     idioma: any = 2;
+    liga = '';
+    imgUsuario: any;
+    fileToUpload: any;
+    imagenActualizada = false;
+    imagenUrls: { [id: number]: string } = {};
 
-    constructor(private empresaService: EmpresaService, private cambioIdiomaService: CambioIdiomaService) {
+    constructor(private imagenesService: ImagenesService,private empresaService: EmpresaService, private cambioIdiomaService: CambioIdiomaService) {
         this.idioma = 2;
         this.cambioIdiomaService.currentMsg$.subscribe(
             (msg) => {
@@ -46,19 +51,49 @@ export class EmpresaComponent implements OnInit {
             this.empresaService.list().subscribe((resEmpresas: any) => {
                 this.empresas = resEmpresas;
             }, err => console.error(err));
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                text: 'Plan Actualizado'
-            })
-        }, err => console.error(err));
+            if (this.idioma == 1) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Empresa Actualizada'
+                })
+            }
+            else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Updated company'
+                })
+            }
+        },
+            error => {
+                if (this.idioma == 1) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Hubo un problema al actualizar la empresa',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+                else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'There was a problem updating the company',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            });
     }
+
     crearEmpresa() {
         this.empresaNueva = new Empresa();
         console.log("empresa nueva")
         $('#modalCrearEmpresa').modal();
         $("#modalCrearEmpresa").modal("open");
     }
+
+
     guardarNuevaEmpresa() {
         console.log("GuardandoEmpresa")
         this.empresaService.crearEmpresa(this.empresaNueva).subscribe((res) => {
@@ -66,19 +101,45 @@ export class EmpresaComponent implements OnInit {
             this.empresaService.list().subscribe((resEmpresas: any) => {
                 this.empresas = resEmpresas;
             }, err => console.error(err));
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                text: 'Plan Actualizado'
-            })
-        }, err => console.error(err));
+            if (this.idioma == 1) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Empresa creada'
+                })
+            }
+            else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Created company'
+                })
+            }
+
+        }, error => {
+            if (this.idioma == 1) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un problema al crear la empresa',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'There was a problem creating the company',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            }
+        });
     }
     eliminarEmpresa(id_empresa: any) {
-        if (this.idioma == 1) {
+        if (this.idioma == 2) {
             Swal.fire({
-                title: 
-                "Are you sure you want to delete this company?",
-                text:  "This action cannot be undone!",
+                title:"Are you sure you want to delete this company?",
+                text: "This action cannot be undone!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -95,9 +156,16 @@ export class EmpresaComponent implements OnInit {
                         },
                             err => console.error(err)
                         );
-                    },
-                        err => console.error(err)
-                    );
+                    },  err => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'There was a problem deleting the company',
+                            icon: 'error',
+                            confirmButtonText: 'Ok'
+                        });
+                    });
+
+
                     Swal.fire({
                         title: "Deleted!",
                         text: "Your file has been deleted.",
@@ -128,8 +196,14 @@ export class EmpresaComponent implements OnInit {
                             err => console.error(err)
                         );
                     },
-                        err => console.error(err)
-                    );
+                        err => {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Hubo un problema al elimnar la empresa',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        });
 
 
                     Swal.fire({
@@ -159,4 +233,69 @@ export class EmpresaComponent implements OnInit {
             this.empresa.fecha = date;
         }
     }
+
+    getFileBlob(file: any) {
+        var reader = new FileReader();
+        return new Promise(function (resolve, reject) { //Espera a que se cargue la img
+          reader.onload = (function (thefile) {
+            return function (e) {
+              // console.log(e.target?.result)
+              resolve(e.target?.result);
+            };
+    
+          })(file);
+          reader.readAsDataURL(file);
+        });
+    
+      }
+
+      guardandoImagen() {
+        // this.imgUsuario = null;
+        //this.fileToUpload = null;
+        let imgPromise = this.getFileBlob(this.fileToUpload);
+        imgPromise.then(blob => {
+          console.log(this.empresa.id_empresa);
+          //this.usuario.fotito = 2; 
+    
+          
+          this.imagenesService.guardarImagen(this.empresa.id_empresa, "empresas", blob).subscribe(
+            (res: any) => {
+              this.imgUsuario = blob;
+              console.log("empresa id: ", this.empresa.id_empresa);
+              
+              // Actualizar la URL de la imagen solo para el usuario actual
+    
+              this.imagenActualizada = true; // Aquí se marca la imagen como actualizada
+              this.empresaService.actualizarFotito(this.empresa.id_empresa).subscribe((resempresa: any) => {
+                console.log("fotito: ", resempresa);
+                this.empresa.fotito = 2;
+                if (this.empresa.fotito === 2) {
+                  console.log(this.liga);
+                  
+                  //this.liga= environment.API_URI_IMAGES + '/usuarios/' + this.usuario.id + '.jpg?t=';
+                  //console.log("liga de los amigos: ",this.liga);
+                  
+                }
+              }, err => console.error(err));
+    
+            },
+            err => console.error(err)
+          );
+        });
+    
+        if(this.idioma==1){
+          Swal.fire({
+            title: "Updated",
+            text: "Your image has been updated",
+            icon: "success",didClose:()=>{window.location.reload();}
+    
+          });}else{
+            Swal.fire({
+              title: "Actualizado",
+              text: "Tu imagen se ha actualizado",
+              icon: "success",didClose:()=>{window.location.reload();}
+            });
+    
+        }
+      }
 }

@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from './../../services/usuario.service';
 import { Usuario } from 'src/app/models/Usuario';
@@ -120,7 +121,7 @@ export class UsuarioComponent implements OnInit {
       this.usuarioService.list().subscribe((resUsuarios: any) => {
         this.usuarios = resUsuarios;
       }, err => console.error(err));
-      if(this.idioma == 1){
+      if(this.idioma == 2){
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -139,7 +140,7 @@ export class UsuarioComponent implements OnInit {
   eliminarUsuario(id: any) {
     console.log("Click en eliminar usuario");
     console.log("Identificador del usuario: ", id);
-    if(this.idioma ==1){
+    if(this.idioma ==2){
       Swal.fire({
         title: "Are you sure to eliminate this user?",
         text: "It is not possible to reverse this action!",
@@ -236,7 +237,7 @@ export class UsuarioComponent implements OnInit {
         (res: any) => {
           this.imgUsuario = blob;
           console.log("Usuario id: ", this.usuario.id);
-
+          
           // Actualizar la URL de la imagen solo para el usuario actual
 
           this.imagenActualizada = true; // Aquí se marca la imagen como actualizada
@@ -261,12 +262,13 @@ export class UsuarioComponent implements OnInit {
       Swal.fire({
         title: "Updated",
         text: "Your image has been updated",
-        icon: "success"
+        icon: "success",didClose:()=>{window.location.reload();}
+
       });}else{
         Swal.fire({
           title: "Actualizado",
           text: "Tu imagen se ha actualizado",
-          icon: "success"
+          icon: "success",didClose:()=>{window.location.reload();}
         });
 
     }

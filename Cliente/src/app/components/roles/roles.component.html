@@ -2,7 +2,7 @@
 
 
 
-<div class="container">
+<div  class="container">
   <h1>{{"Lista de roles" | translate}}</h1>
   <table class="default" *ngIf="roles != undefined">
     <tr *ngFor="let rol of roles |
@@ -10,8 +10,8 @@
     itemsPerPage: pageSize,
     currentPage: p
     };let i=index">
-    <td *ngIf="idioma==2">{{rol.nombre_rol}}{{idioma}}</td>
-    <td *ngIf="idioma==1">{{rol.name_rol}}{{idioma}}</td>
+    <td *ngIf="idioma=='1'">{{rol.nombre_rol}}</td>
+    <td *ngIf="idioma=='2'">{{rol.name_rol}}</td>
     <td><a href="javascript: void(0);" class="space" (click)="actualizarRol(rol.id_rol)">
       <i class="material-icons">edit</i></a></td>
       <td><a href="javascript: void(0);" class="material-icons" (click)="eliminarRol(rol.id_rol)">
@@ -29,25 +29,24 @@
   <div class="modal-content">
     <div class="row" style="margin-bottom: 0px !important;">
       <div class="col s12">
-        <h5 class="center">{{"Actualizar Rol"|translate}}</h5>
+        <h5 class="center">{{"Actualizar Rol" | translate}}</h5>
       </div>
     </div>
     <div style="border: .5px solid #78909c; padding: 10px;">
       <div class="row">
         <div class="input-field col s12">
-          <label class="active" for="nombre_rol">{{"Nombre"|translate}} </label>
-          <input *ngIf="idioma==2" id="nombre_rol" [(ngModel)]="rol.nombre_rol" type="text" class="validate">
-          <input *ngIf="idioma==1" id="name_rol" [(ngModel)]="rol.name_rol" type="text" class="validate">
+          <label class="active" for="nombre_rol">{{"Nombre" | translate}} </label>
+          <input id="nombre_rol" [(ngModel)]="rol.nombre_rol" type="text" class="validate">
         </div>
       </div>
       <div class="row">
         <div class="col s6 center">
           <input type="submit" class="waves-effect btn-large brown lighten-3 modal-close"
-            (click)="guardarActualizarRol()" value="Enviar">
+            (click)="guardarActualizarRol()" value="{{'Enviar'|translate}}">
         </div>
         <div class="col s6 center">
           <a class="modal-action modal-close waves-effect btn-large brown lighten-3
-  black-text">{{"Cancelar"|translate}}</a>
+  black-text">{{'Cancelar'|translate}}</a>
         </div>
       </div>
     </div>
@@ -58,19 +57,19 @@
   <div class="modal-content">
     <div class="row" style="margin-bottom: 0px !important;">
       <div class="col s12">
-        <h5 class="center">{{"Crear Rol"|translate}}</h5>
+        <h5 class="center">Crear Rol</h5>
       </div>
     </div>
     <div style="border: .5px solid #78909c; padding: 10px;">
       <div class="row">
         <div class="input-field col s12">
-          <label class="active" for="nombre_rol">Nombre {{"Español"|translate}} </label>
+          <label class="active" for="nombre_rol">Nombre </label>
           <input id="nombre_rol" [(ngModel)]="rolNuevo.nombre_rol" type="text" class="validate">
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <label class="active" for="name_rol">Name {{"Inglés"|translate}} </label>
+          <label class="active" for="name_rol">Name Rol </label>
           <input id="name_rol" [(ngModel)]="rolNuevo.name_rol" type="text" class="validate">
         </div>
       </div>
@@ -81,7 +80,7 @@
         </div>
         <div class="col s6 center">
           <a class="modal-action modal-close waves-effect btn-large brown lighten-3
-  black-text">{{"Cancelar"|translate}}</a>
+  black-text">Cancelar</a>
         </div>
       </div>
     </div>

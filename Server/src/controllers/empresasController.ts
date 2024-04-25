@@ -37,5 +37,12 @@ class EmpresasController
         }
     }
 
+    public async actualizarFotito(req: Request, res: Response): Promise<void> {
+        const { id } = req.params;
+        console.log(id);
+        const resp = await pool.query("UPDATE empresa set fotito = 1 WHERE id = ?", [id]);
+        res.json(resp);
+    }
+
 }
 export const empresasController = new EmpresasController();

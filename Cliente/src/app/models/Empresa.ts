@@ -4,9 +4,10 @@ export class Empresa{
     direccion: string;
     rfc: string;
     telefono: string;
-    responsable: string;
-    responsible: string;
     fecha : string;
+    descripcion: string;
+    description: string;
+    fotito: number;
 
     constructor() {
         this.id_empresa = 0;
@@ -14,8 +15,9 @@ export class Empresa{
         this.direccion = '';
         this.rfc = '';
         this.telefono = '';
-        this.responsable = '';
-        this.responsible = '';
         this.fecha = '';
+        this.descripcion= '';
+        this.description='';
+        this.fotito= 0;
     }
 }
