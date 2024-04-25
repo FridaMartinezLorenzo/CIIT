@@ -15,11 +15,14 @@
     <td>{{empresa.nombre_empresa}}</td>
     <td>{{empresa.direccion}}</td>
     <td>{{empresa.descripcion}}</td>
-    <td><a href="javascript: void(0);" class="space" (click)="actualizarEmpresa(empresa.id_empresa)">
+    <td><a href="javascript: void(0);" class="space" (click)="actualizarEmpresa(empresa.id_empresa)"> 
       <i class="material-icons">edit</i></a></td>
       <td><a href="javascript: void(0);" class="material-icons" (click)="eliminarEmpresa(empresa.id_empresa)">
         <i class="material-icons">delete_forever</i></a></td>
+        <td><a href="javascript: void(0);" class="space" (click)="mostrarImagen(empresa.id_empresa)">
+          <i class="material-icons">image </i></a></td>
       </tr>
+      
   </table>
   <div class="row center-align">
     <pagination-controls class="my-pagination" (pageChange)="p = ($event)"
@@ -74,6 +77,44 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div id="Imagen" class="modal">
+  <div class="modal-content">
+    <div class="row" style="margin-bottom: 0px !important;">
+      <div class="col s12">
+        <h5 class="center">{{"Imagen"| translate}}</h5>
+      </div>
+    </div>
+    <div style="border: .5px solid #78909c; padding: 10px;">
+      <div class="row">
+        <div class="input-field col s12">
+        <!--
+                  <div align="center">
+            <img *ngIf="usuario.fotito == 1" width="64" src="{{liga}}/usuarios/{{usuario.id}}.jpg" alt="{{liga}}/usuarios/1.jpg">
+            <img *ngIf="usuario.fotito == 0" width="64" src="{{liga}}/usuarios/0.jpg" alt="{{liga}}/usuarios/1.jpg">
+          </div> 
+        </div>
+      -->
+        <div class="input-field col s6">
+          <br><br>
+          <input type="file" (change)="cargandoImagen($event.target)" multiple>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s6 center">
+          <input type="submit" class="waves-effect btn-large brown lighten-3 modal-close"
+            (click)="guardandoImagen()" value="{{'Enviar'|translate}}">
+        </div>
+        <div class="col s6 center">
+          <a class="modal-action modal-close waves-effect btn-large brown lighten-3
+  black-text">{{'Cancelar'|translate}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 <div id="modalCrearEmpresa" class="modal">
