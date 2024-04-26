@@ -58,19 +58,21 @@
     "Actualizar Rol":"Actualizar Rol",
     "Crear Rol":"Crear Rol",
     "Español":"Español",
+    "Ingles":"Inglés",
     "Actualización de oferta":"Actualización de oferta",
     "Crear compañía": "Crear compañía",
     "Correo":"Correo",
     "Empresa":"Empresa",
     "Puesto":"Puesto",
     "Salario":"Salario",
-    "Descripcion":"Descripcion",
-    "Horario":"Horario"
-
-
-
-
-
+    "Descripcion":"Descripción",
+    "Horario":"Horario",
+    "Actualizar":"Actualizar",
+    "Eliminar":"Eliminar",
+    "Crear oferta":"Crear oferta",
+    "Crear oferta laboral":"Crear oferta laboral",
+    "Creacion de oferta":"Creación de oferta",
+    "Cerrar":"Cerrar"
 
     }
     
