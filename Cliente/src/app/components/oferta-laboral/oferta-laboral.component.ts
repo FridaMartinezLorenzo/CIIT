@@ -3,6 +3,7 @@ import { Empresa } from 'src/app/models/Empresa';
 import { OfertaLaboral } from 'src/app/models/OfertaLaboral';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { OfertaLaboralService } from 'src/app/services/oferta-laboral.service';
+import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
 import Swal from 'sweetalert2';
 declare var $: any;
 @Component({
@@ -17,9 +18,18 @@ export class OfertaLaboralComponent implements OnInit {
   empresas: Empresa[] = [];
   empresa: Empresa = new Empresa();
   pageSize = 2;
+  idioma: any = 1;
   p = 1;
-  constructor(private ofertaService: OfertaLaboralService, private empresaService: EmpresaService) {
-
+  constructor(private cambioIdiomaService: CambioIdiomaService,private ofertaService: OfertaLaboralService, private empresaService: EmpresaService) {
+    this.idioma = 1;
+    this.cambioIdiomaService.currentMsg$.subscribe(
+        (msg) => {
+          if (msg == '')
+            this.idioma = 1;
+          else
+            this.idioma = msg;
+            //console.log("idioma actual:", this.idioma, " aaaa");
+        });
   }
   ngOnInit(): void {
     $(document).ready(function () {
@@ -50,11 +60,20 @@ export class OfertaLaboralComponent implements OnInit {
       this.ofertaService.list().subscribe((resOfertas: any) => {
         this.ofertas = resOfertas;
       }, err => console.error(err));
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        text: 'Plan Actualizado'
-      })
+      if (this.idioma == 1) {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: 'Plan Actualizado'
+        })
+    }
+    else {
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: 'Updated Plan'
+        })
+    }
     }, err => console.error(err));
   }
 
@@ -72,24 +91,42 @@ openModalCrearOferta() {
     if (this.oferta.atributoVacioONulo(this.oferta)) 
       {
       this.ofertaService.crearOferta(this.oferta).subscribe((res) => {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: 'Oferta creada exitosamente!'
-        })
+        if (this.idioma == 1) {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: 'Oferta creada exitosamente!'
+          })
+      }
+      else {
+          Swal.fire({
+              position: 'center',
+              icon: 'success',
+              text: 'Offer created successfully!'
+          })
         this.ofertaService.list().subscribe((resOfertas: any) => {
           this.ofertas = resOfertas;
 
         }, err => console.error(err));
-      });
+      }});
     }
     else
+    if (this.idioma == 1) {
       Swal.fire({
         position: 'center',
         icon: 'error',
         title: 'Error',
         text: 'Debes rellenar todos los campos!'
       })
+  }
+  else {
+      Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Error',
+          text: 'You must fill all the fields!'
+      })
+    }
       this.oferta = new OfertaLaboral();
 
 
@@ -105,24 +142,69 @@ openModalCrearOferta() {
       this.ofertaService.list().subscribe((resOfertas: any) => {
         this.ofertas = resOfertas;
       }, err => console.error(err));
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        text: 'Plan Actualizado'
-      })
+      if (this.idioma == 1) {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: 'Plan Actualizado'
+        })
+    }
+    else {
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: 'Updated Plan'
+        })
+    }
     }, err => console.error(err));
   }
   eliminarOferta(id_oferta: any) {
     console.log("Click en eliminar OfertaLaboral");
     console.log("Identificador del OfertaLaboral: ", id_oferta);
+
+    if (this.idioma == 1) {
+      Swal.fire({
+        title: "¿Estás seguro de eliminar esta oferta?",
+        text: "¡No es posible revertir esta acción!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, quiero eliminarlo!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.ofertaService.eliminarOferta(id_oferta).subscribe((resOferta: any) => {
+            console.log("resOferta: ", resOferta);
+            this.ofertaService.list().subscribe((resOferta: any) => {
+              this.ofertas = resOferta;
+              this.ofertaService.list().subscribe((resOfertas: any) => {
+                this.ofertas = resOfertas;
+              });
+            },
+              err => console.error(err)
+            );
+          },
+            err => console.error(err)
+          );
+  
+  
+          Swal.fire({
+            title: "¡Eliminado!",
+            text: "Tu archivo ha sido eliminado.",
+            icon: "success"
+          });
+        }
+      });
+  }
+  else {
     Swal.fire({
-      title: "¿Estás seguro de eliminar esta oferta?",
-      text: "¡No es posible revertir esta acción!",
+      title: "Are you sure to delete this offer?",
+      text: "It is not possible to reverse this action!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, quiero eliminarlo!"
+      confirmButtonText: "Yes, I want to delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
         this.ofertaService.eliminarOferta(id_oferta).subscribe((resOferta: any) => {
@@ -141,12 +223,17 @@ openModalCrearOferta() {
 
 
         Swal.fire({
-          title: "¡Eliminado!",
-          text: "Tu archivo ha sido eliminado.",
+          title: "Removed!",
+          text: "Your file has been deleted.",
           icon: "success"
         });
       }
     });
+  }
+
+
+
+    
 
   }
 
