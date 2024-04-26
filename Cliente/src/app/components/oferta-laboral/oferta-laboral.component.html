@@ -16,9 +16,11 @@
     itemsPerPage: pageSize,
     currentPage: p
     };let i=index">
-    <td>{{oferta.puesto}}</td>
+    <td *ngIf = "idioma==1">{{oferta.puesto}}</td>
+    <td *ngIf = "idioma==2">{{oferta.position}}</td>
     <td>{{oferta.salario}}</td>
-    <td>{{oferta.descripcion}}</td>
+    <td *ngIf = "idioma==1">{{oferta.descripcion}}</td>
+    <td *ngIf = "idioma==2">{{oferta.description}}</td>
     <td>{{oferta.horario}}</td>
 
     <td><a href="javascript: void(0);" class="space" (click)="actualizarOferta(oferta.idOferta)">

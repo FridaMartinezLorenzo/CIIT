@@ -21,14 +21,15 @@ export class OfertaLaboralComponent implements OnInit {
   idioma: any = 1;
   p = 1;
   constructor(private cambioIdiomaService: CambioIdiomaService,private ofertaService: OfertaLaboralService, private empresaService: EmpresaService) {
-    this.idioma = 1;
+    this.idioma = localStorage.getItem("idioma");
+
+    console.log("idioma", this.idioma)
     this.cambioIdiomaService.currentMsg$.subscribe(
         (msg) => {
-          if (msg == '')
-            this.idioma = 1;
-          else
+          if(msg != ''){
             this.idioma = msg;
-            //console.log("idioma actual:", this.idioma, " aaaa");
+          }
+            console.log("idioma actual:", this.idioma, " aaaa");
         });
   }
   ngOnInit(): void {
