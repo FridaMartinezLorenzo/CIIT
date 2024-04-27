@@ -4,6 +4,7 @@ import { OfertaLaboral } from 'src/app/models/OfertaLaboral';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { OfertaLaboralService } from 'src/app/services/oferta-laboral.service';
 import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
+import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 declare var $: any;
 @Component({
@@ -17,12 +18,14 @@ export class OfertaLaboralComponent implements OnInit {
   ofertaNueva: OfertaLaboral = new OfertaLaboral();
   empresas: Empresa[] = [];
   empresa: Empresa = new Empresa();
+  liga = '';
+  empresaNombres: { [id: number]: [string, number] } = {};  //Diccionario de nombres de empresas
   pageSize = 2;
   idioma: any = 1;
   p = 1;
   constructor(private cambioIdiomaService: CambioIdiomaService,private ofertaService: OfertaLaboralService, private empresaService: EmpresaService) {
     this.idioma = localStorage.getItem("idioma");
-
+    this.liga = environment.API_URI_IMAGES;
     console.log("idioma", this.idioma)
     this.cambioIdiomaService.currentMsg$.subscribe(
         (msg) => {
@@ -42,7 +45,8 @@ export class OfertaLaboralComponent implements OnInit {
       this.ofertas = resOfertas;
       this.empresaService.list().subscribe((resEmpresa: any) => {
         this.empresas = resEmpresa;
-        console.log("hola mundo", resOfertas);
+        this.construirDiccionarioEmpresas();  //Construye un diccionario con los id's y los nombres de las empresas
+        console.log(this.ofertas);
       }, err => console.log(err))
     }, err => console.error(err));
   }
@@ -87,6 +91,13 @@ openModalCrearOferta() {
     $("#modalOferta").modal("open");
 }
 
+
+  construirDiccionarioEmpresas() {
+    this.empresaNombres = {};
+    this.empresas.forEach(empresa => {
+      this.empresaNombres[empresa.id_empresa] = [empresa.nombre_empresa, empresa.fotito];
+    });
+  }
 
   crearOferta() {
     if (this.oferta.atributoVacioONulo(this.oferta)) 

@@ -3,6 +3,8 @@
   <a class="waves-effect waves-light btn modal-trigger" (click)="openModalCrearOferta()">{{"Crear oferta" | translate}}</a>  
   <table class="default" *ngIf="ofertas != undefined">
     <tr>
+      <th></th>
+      <th>{{"Empresa" | translate}}</th>
       <th>{{"Puesto" | translate}}</th>
       <th>{{"Salario" | translate}}</th>
       <th>{{"Descripcion" | translate}}</th>
@@ -16,9 +18,12 @@
     itemsPerPage: pageSize,
     currentPage: p
     };let i=index">
+    <td *ngIf="empresaNombres[oferta.id_empresa]?.[1] == 1"><img width="64" src="{{liga}}/empresas/{{oferta.id_empresa}}.jpg" alt="{{liga}}/empresas/1.jpg"></td>
+    <td *ngIf="empresaNombres[oferta.id_empresa]?.[1] == 0"><img width="64" src="{{liga}}/empresas/00.jpg" alt="{{liga}}/empresas/1.jpg"></td>
+    <td>{{ empresaNombres[oferta.id_empresa]?.[0] }}</td>
     <td *ngIf = "idioma==1">{{oferta.puesto}}</td>
     <td *ngIf = "idioma==2">{{oferta.position}}</td>
-    <td>{{oferta.salario}}</td>
+    <td>${{oferta.salario}}</td>
     <td *ngIf = "idioma==1">{{oferta.descripcion}}</td>
     <td *ngIf = "idioma==2">{{oferta.description}}</td>
     <td>{{oferta.horario}}</td>
