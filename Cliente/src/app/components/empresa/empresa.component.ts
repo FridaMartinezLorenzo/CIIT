@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { EmpresaService } from './../../services/empresa.service';
 import { Empresa } from 'src/app/models/Empresa';
 import Swal from 'sweetalert2';
