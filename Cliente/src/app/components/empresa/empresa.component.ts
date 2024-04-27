@@ -48,6 +48,23 @@ export class EmpresaComponent implements OnInit {
         }, err => console.error(err));
     }
     guardarActualizarEmpresa() {
+        console.log("Guardar empresa");
+        if(!this.empresa.descripcion || !this.empresa.description || !this.empresa.direccion || !this.empresa.nombre_empresa || !this.empresa.rfc || !this.empresa.telefono || !this.empresa.fecha){
+            if (this.idioma == 1) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    text: 'Por favor rellene todos los campos'
+                })
+            }
+            else{
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    text: 'Please fill all inputs'
+                })
+            }   
+        }else{
         this.empresaService.actualizarEmpresa(this.empresa).subscribe((res) => {
             $('#modalModificarEmpresa').modal('close');
             this.empresaService.list().subscribe((resEmpresas: any) => {
@@ -86,6 +103,7 @@ export class EmpresaComponent implements OnInit {
                     });
                 }
             });
+        }
     }
 
     crearEmpresa() {
@@ -97,48 +115,68 @@ export class EmpresaComponent implements OnInit {
 
 
     guardarNuevaEmpresa() {
-        console.log("GuardandoEmpresa")
-        this.empresaService.crearEmpresa(this.empresaNueva).subscribe((res) => {
-            $('#modalCrearEmpresa').modal('close');
-            this.empresaService.list().subscribe((resEmpresas: any) => {
-                this.empresas = resEmpresas;
-            }, err => console.error(err));
+        console.log("Nueva empresa guardando")
+        if(!this.empresaNueva.descripcion || !this.empresaNueva.description || !this.empresaNueva.direccion || !this.empresaNueva.nombre_empresa || !this.empresaNueva.rfc || !this.empresaNueva.telefono || !this.empresaNueva.fecha){
             if (this.idioma == 1) {
                 Swal.fire({
                     position: 'center',
-                    icon: 'success',
-                    text: 'Empresa creada'
+                    icon: 'error',
+                    text: 'Por favor rellene todos los campos'
                 })
             }
-            else {
+            else{
                 Swal.fire({
                     position: 'center',
-                    icon: 'success',
-                    text: 'Created company'
+                    icon: 'error',
+                    text: 'Please fill all inputs'
                 })
-            }
+            }   
+        }else{
+            console.log("Formulario valido")
+            this.empresaService.crearEmpresa(this.empresaNueva).subscribe((res) => {
+                $('#modalCrearEmpresa').modal('close');
+                this.empresaService.list().subscribe((resEmpresas: any) => {
+                    this.empresas = resEmpresas;
+                }, err => console.error(err));
+                if (this.idioma == 1) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        text: 'Empresa creada'
+                    })
+                }
+                else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        text: 'Created company'
+                    })
+                }
+                
+            }, error => {
+                if (this.idioma == 1) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Hubo un problema al crear la empresa',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+                else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'There was a problem creating the company',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                }
+            });
+        }
+        }
 
-        }, error => {
-            if (this.idioma == 1) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Hubo un problema al crear la empresa',
-                    icon: 'error',
-                    confirmButtonText: 'Aceptar'
-                });
-            }
-            else {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'There was a problem creating the company',
-                    icon: 'error',
-                    confirmButtonText: 'Ok'
-                });
-            }
-        });
-    }
-    eliminarEmpresa(id_empresa: any) {
-        if (this.idioma == 2) {
+
+        eliminarEmpresa(id_empresa: any) {
+            if (this.idioma == 2) {
             Swal.fire({
                 title:"Are you sure you want to delete this company?",
                 text: "This action cannot be undone!",
