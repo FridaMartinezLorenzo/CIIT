@@ -25,8 +25,8 @@ export class EmpresaComponent implements OnInit {
     imagenUrls: { [id: number]: string } = {};
 
     constructor(private imagenesService: ImagenesService,private empresaService: EmpresaService, private cambioIdiomaService: CambioIdiomaService) {
-        this.idioma = 2;
         this.liga = environment.API_URI_IMAGES;
+        this.idioma = 2;
         this.cambioIdiomaService.currentMsg$.subscribe(
             (msg) => {
                 this.idioma = msg;
