@@ -26,13 +26,11 @@ export class OfertaLaboralComponent implements OnInit {
   constructor(private cambioIdiomaService: CambioIdiomaService,private ofertaService: OfertaLaboralService, private empresaService: EmpresaService) {
     this.idioma = localStorage.getItem("idioma");
     this.liga = environment.API_URI_IMAGES;
-    console.log("idioma", this.idioma)
     this.cambioIdiomaService.currentMsg$.subscribe(
         (msg) => {
           if(msg != ''){
             this.idioma = msg;
           }
-            console.log("idioma actual:", this.idioma, " aaaa");
         });
   }
   ngOnInit(): void {
@@ -46,15 +44,12 @@ export class OfertaLaboralComponent implements OnInit {
       this.empresaService.list().subscribe((resEmpresa: any) => {
         this.empresas = resEmpresa;
         this.construirDiccionarioEmpresas();  //Construye un diccionario con los id's y los nombres de las empresas
-        console.log(this.ofertas);
       }, err => console.log(err))
     }, err => console.error(err));
   }
   actualizarOferta(id_oferta: any) {
     this.ofertaService.listOne(id_oferta).subscribe((resOferta: any) => {
       this.oferta = resOferta;
-
-      console.log(this.oferta)
       $('#modalModificarOferta').modal();
       $("#modalModificarOferta").modal("open");
     }, err => console.error(err));
@@ -116,11 +111,12 @@ openModalCrearOferta() {
               icon: 'success',
               text: 'Offer created successfully!'
           })
-        this.ofertaService.list().subscribe((resOfertas: any) => {
-          this.ofertas = resOfertas;
-
-        }, err => console.error(err));
       }});
+
+      this.ofertaService.list().subscribe((resOfertas: any) => {
+        this.ofertas = resOfertas;
+
+      }, err => console.error(err));
     }
     else
     if (this.idioma == 1) {
@@ -148,7 +144,6 @@ openModalCrearOferta() {
 
   
   guardarNuevaOferta() {
-    console.log("GuardandoOferta")
     this.ofertaService.crearOferta(this.ofertaNueva).subscribe((res) => {
       $('#modalCrearOferta').modal('close');
       this.ofertaService.list().subscribe((resOfertas: any) => {
@@ -171,8 +166,6 @@ openModalCrearOferta() {
     }, err => console.error(err));
   }
   eliminarOferta(id_oferta: any) {
-    console.log("Click en eliminar OfertaLaboral");
-    console.log("Identificador del OfertaLaboral: ", id_oferta);
 
     if (this.idioma == 1) {
       Swal.fire({
@@ -186,7 +179,6 @@ openModalCrearOferta() {
       }).then((result) => {
         if (result.isConfirmed) {
           this.ofertaService.eliminarOferta(id_oferta).subscribe((resOferta: any) => {
-            console.log("resOferta: ", resOferta);
             this.ofertaService.list().subscribe((resOferta: any) => {
               this.ofertas = resOferta;
               this.ofertaService.list().subscribe((resOfertas: any) => {
@@ -220,7 +212,6 @@ openModalCrearOferta() {
     }).then((result) => {
       if (result.isConfirmed) {
         this.ofertaService.eliminarOferta(id_oferta).subscribe((resOferta: any) => {
-          console.log("resOferta: ", resOferta);
           this.ofertaService.list().subscribe((resOferta: any) => {
             this.ofertas = resOferta;
             this.ofertaService.list().subscribe((resOfertas: any) => {
