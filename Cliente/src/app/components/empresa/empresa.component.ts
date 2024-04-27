@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { EmpresaService } from './../../services/empresa.service';
 import { Empresa } from 'src/app/models/Empresa';
 import Swal from 'sweetalert2';
@@ -18,7 +17,7 @@ export class EmpresaComponent implements OnInit {
     empresaNueva: Empresa = new Empresa();
     pageSize = 2;
     p = 1;
-    idioma: any = 2;
+    idioma: any = '1';
     liga = '';
     imgEmpresa: any;
     fileToUpload: any;
@@ -27,19 +26,114 @@ export class EmpresaComponent implements OnInit {
 
     constructor(private imagenesService: ImagenesService,private empresaService: EmpresaService, private cambioIdiomaService: CambioIdiomaService) {
         this.liga = environment.API_URI_IMAGES;
-        this.idioma = 2;
+        this.idioma = localStorage.getItem("idioma");
+
+        console.log("idioma", this.idioma)
         this.cambioIdiomaService.currentMsg$.subscribe(
             (msg) => {
+              if(msg != ''){
                 this.idioma = msg;
+              }
                 console.log("idioma actual:", this.idioma, " aaaa");
+                if (this.idioma !==2 ) {
+                    console.log("idioma actual:", this.idioma);
+                    this.inicializarCalendarioES();
+                }
+                else if (this.idioma === 2){
+                    console.log("idioma actual:", this.idioma);
+                    this.inicializarCalendarioEN();
+                } 
             });
+
+            
     }
+
     ngOnInit(): void {
-        this.initDatepicker();
         this.empresaService.list().subscribe((resEmpresas: any) => {
             this.empresas = resEmpresas;
         }, err => console.error(err));
+      
+    } 
+   
+   
+    inicializarCalendarioEN(): void {
+        $('.datepicker').val('');
+        $(document).ready(function(){
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy'
+            });
+         }); 
+
     }
+
+    inicializarCalendarioES(): void {
+        $('.datepicker').val('');
+
+
+        $(document).ready(function(){
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy', // Formato de fecha
+                i18n: {
+                    cancel: 'Cancelar',
+                    clear: 'Limpiar',
+                    done: 'Listo',
+                    previousMonth: '‹',
+                    nextMonth: '›',
+                    months: [
+                        'Enero',
+                        'Febrero',
+                        'Marzo',
+                        'Abril',
+                        'Mayo',
+                        'Junio',
+                        'Julio',
+                        'Agosto',
+                        'Septiembre',
+                        'Octubre',
+                        'Noviembre',
+                        'Diciembre'
+                    ],
+                    monthsShort: [
+                        'Ene',
+                        'Feb',
+                        'Mar',
+                        'Abr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Ago',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dic'
+                    ],
+                    weekdays: [
+                        'Domingo',
+                        'Lunes',
+                        'Martes',
+                        'Miércoles',
+                        'Jueves',
+                        'Viernes',
+                        'Sábado'
+                    ],
+                    weekdaysShort: [
+                        'Dom',
+                        'Lun',
+                        'Mar',
+                        'Mié',
+                        'Jue',
+                        'Vie',
+                        'Sáb'
+                    ],
+                    weekdaysAbbrev: ['D', 'L', 'M', 'M', 'J', 'V', 'S']
+                }
+            });
+        });  
+
+    }
+    
+
+
     actualizarEmpresa(id_empresa: any) {
         this.empresaService.listOne(id_empresa).subscribe((resEmpresa: any) => {
             this.empresa = resEmpresa;
@@ -49,7 +143,7 @@ export class EmpresaComponent implements OnInit {
         }, err => console.error(err));
     }
     guardarActualizarEmpresa() {
-        console.log("Guardar empresa");
+        console.log(this.empresa);
         if(!this.empresa.descripcion || !this.empresa.description || !this.empresa.direccion || !this.empresa.nombre_empresa || !this.empresa.rfc || !this.empresa.telefono || !this.empresa.fecha){
             if (this.idioma == 1) {
                 Swal.fire({
@@ -109,14 +203,14 @@ export class EmpresaComponent implements OnInit {
 
     crearEmpresa() {
         this.empresaNueva = new Empresa();
-        console.log("empresa nueva")
+        console.log("empresa nueva", this. empresaNueva);
         $('#modalCrearEmpresa').modal();
         $("#modalCrearEmpresa").modal("open");
     }
 
 
     guardarNuevaEmpresa() {
-        console.log("Nueva empresa guardando")
+        console.log(this.empresaNueva);
         if(!this.empresaNueva.descripcion || !this.empresaNueva.description || !this.empresaNueva.direccion || !this.empresaNueva.nombre_empresa || !this.empresaNueva.rfc || !this.empresaNueva.telefono || !this.empresaNueva.fecha){
             if (this.idioma == 1) {
                 Swal.fire({
@@ -272,6 +366,13 @@ export class EmpresaComponent implements OnInit {
     actualizarFecha(date?: any) {
         if (date) {
             this.empresa.fecha = date;
+        }
+    }
+
+    nuevaFecha(date?: any) {
+        console.log("fehcaaaaaa:", date);
+        if (date) {
+            this.empresaNueva.fecha = date;
         }
     }
     mostrarImagen(id_empresa: any) {
