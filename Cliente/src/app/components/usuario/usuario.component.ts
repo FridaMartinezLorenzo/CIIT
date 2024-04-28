@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { ChangeDetectorRef } from '@angular/core';
 import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
 
+
 declare var $: any;
 
 @Component({
@@ -35,12 +36,13 @@ export class UsuarioComponent implements OnInit {
     this.imgUsuario = null;
     this.fileToUpload = null;
     this.liga = environment.API_URI_IMAGES;
-    this.idioma = 2;
-        this.cambioIdiomaService.currentMsg$.subscribe(
+    this.idioma = localStorage.getItem("idioma");
+    
+        /*this.cambioIdiomaService.currentMsg$.subscribe(
             (msg) => {
                 this.idioma = msg;
                 console.log("idioma actual:", this.idioma, " aaaa");
-            });
+            });*/
   }
 
   ngOnInit(): void {
@@ -290,7 +292,5 @@ export class UsuarioComponent implements OnInit {
     });
 
   }
-
-
-
 }
+
