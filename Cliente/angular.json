@@ -30,16 +30,12 @@
               "src/assets"
             ],
             "styles": [
-              "./dist/ngx-bootstrap/datepicker/bs-datepicker.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
               "node_modules/materialize-css/dist/css/materialize.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/materialize-css/dist/js/materialize.js",
-              "node_modules/pickadate/lib/picker.js",
-              "node_modules/pickadate/lib/picker.date.js"
+              "node_modules/materialize-css/dist/js/materialize.js"
             ]
           },
           "configurations": {

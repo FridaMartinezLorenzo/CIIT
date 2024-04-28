@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     database: {
         host: 'localhost',
-        user: 'samuel',
-        password: '123',
+        user: 'root',
+        password: '',
         database: 'ciit'
     }
 };

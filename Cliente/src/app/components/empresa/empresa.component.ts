@@ -17,7 +17,7 @@ export class EmpresaComponent implements OnInit {
     empresaNueva: Empresa = new Empresa();
     pageSize = 2;
     p = 1;
-    idioma: any = '1';
+    idioma: any = 2;
     liga = '';
     imgEmpresa: any;
     fileToUpload: any;
@@ -25,115 +25,20 @@ export class EmpresaComponent implements OnInit {
     imagenUrls: { [id: number]: string } = {};
 
     constructor(private imagenesService: ImagenesService,private empresaService: EmpresaService, private cambioIdiomaService: CambioIdiomaService) {
+        this.idioma = 2;
         this.liga = environment.API_URI_IMAGES;
-        this.idioma = localStorage.getItem("idioma");
-
-        console.log("idioma", this.idioma)
         this.cambioIdiomaService.currentMsg$.subscribe(
             (msg) => {
-              if(msg != ''){
                 this.idioma = msg;
-              }
                 console.log("idioma actual:", this.idioma, " aaaa");
-                if (this.idioma !==2 ) {
-                    console.log("idioma actual:", this.idioma);
-                    this.inicializarCalendarioES();
-                }
-                else if (this.idioma === 2){
-                    console.log("idioma actual:", this.idioma);
-                    this.inicializarCalendarioEN();
-                } 
             });
-
-            
     }
-
     ngOnInit(): void {
+        this.initDatepicker();
         this.empresaService.list().subscribe((resEmpresas: any) => {
             this.empresas = resEmpresas;
         }, err => console.error(err));
-      
-    } 
-   
-   
-    inicializarCalendarioEN(): void {
-        $('.datepicker').val('');
-        $(document).ready(function(){
-            $('.datepicker').datepicker({
-                format: 'dd/mm/yyyy'
-            });
-         }); 
-
     }
-
-    inicializarCalendarioES(): void {
-        $('.datepicker').val('');
-
-
-        $(document).ready(function(){
-            $('.datepicker').datepicker({
-                format: 'dd/mm/yyyy', // Formato de fecha
-                i18n: {
-                    cancel: 'Cancelar',
-                    clear: 'Limpiar',
-                    done: 'Listo',
-                    previousMonth: '‹',
-                    nextMonth: '›',
-                    months: [
-                        'Enero',
-                        'Febrero',
-                        'Marzo',
-                        'Abril',
-                        'Mayo',
-                        'Junio',
-                        'Julio',
-                        'Agosto',
-                        'Septiembre',
-                        'Octubre',
-                        'Noviembre',
-                        'Diciembre'
-                    ],
-                    monthsShort: [
-                        'Ene',
-                        'Feb',
-                        'Mar',
-                        'Abr',
-                        'May',
-                        'Jun',
-                        'Jul',
-                        'Ago',
-                        'Sep',
-                        'Oct',
-                        'Nov',
-                        'Dic'
-                    ],
-                    weekdays: [
-                        'Domingo',
-                        'Lunes',
-                        'Martes',
-                        'Miércoles',
-                        'Jueves',
-                        'Viernes',
-                        'Sábado'
-                    ],
-                    weekdaysShort: [
-                        'Dom',
-                        'Lun',
-                        'Mar',
-                        'Mié',
-                        'Jue',
-                        'Vie',
-                        'Sáb'
-                    ],
-                    weekdaysAbbrev: ['D', 'L', 'M', 'M', 'J', 'V', 'S']
-                }
-            });
-        });  
-
-    }
-    
-
-
     actualizarEmpresa(id_empresa: any) {
         this.empresaService.listOne(id_empresa).subscribe((resEmpresa: any) => {
             this.empresa = resEmpresa;
@@ -143,23 +48,6 @@ export class EmpresaComponent implements OnInit {
         }, err => console.error(err));
     }
     guardarActualizarEmpresa() {
-        console.log(this.empresa);
-        if(!this.empresa.descripcion || !this.empresa.description || !this.empresa.direccion || !this.empresa.nombre_empresa || !this.empresa.rfc || !this.empresa.telefono || !this.empresa.fecha){
-            if (this.idioma == 1) {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    text: 'Por favor rellene todos los campos'
-                })
-            }
-            else{
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    text: 'Please fill all inputs'
-                })
-            }   
-        }else{
         this.empresaService.actualizarEmpresa(this.empresa).subscribe((res) => {
             $('#modalModificarEmpresa').modal('close');
             this.empresaService.list().subscribe((resEmpresas: any) => {
@@ -198,80 +86,59 @@ export class EmpresaComponent implements OnInit {
                     });
                 }
             });
-        }
     }
 
     crearEmpresa() {
         this.empresaNueva = new Empresa();
-        console.log("empresa nueva", this. empresaNueva);
+        console.log("empresa nueva")
         $('#modalCrearEmpresa').modal();
         $("#modalCrearEmpresa").modal("open");
     }
 
 
     guardarNuevaEmpresa() {
-        console.log(this.empresaNueva);
-        if(!this.empresaNueva.descripcion || !this.empresaNueva.description || !this.empresaNueva.direccion || !this.empresaNueva.nombre_empresa || !this.empresaNueva.rfc || !this.empresaNueva.telefono || !this.empresaNueva.fecha){
+        console.log("GuardandoEmpresa")
+        this.empresaService.crearEmpresa(this.empresaNueva).subscribe((res) => {
+            $('#modalCrearEmpresa').modal('close');
+            this.empresaService.list().subscribe((resEmpresas: any) => {
+                this.empresas = resEmpresas;
+            }, err => console.error(err));
             if (this.idioma == 1) {
                 Swal.fire({
                     position: 'center',
-                    icon: 'error',
-                    text: 'Por favor rellene todos los campos'
+                    icon: 'success',
+                    text: 'Empresa creada'
                 })
             }
-            else{
+            else {
                 Swal.fire({
                     position: 'center',
-                    icon: 'error',
-                    text: 'Please fill all inputs'
+                    icon: 'success',
+                    text: 'Created company'
                 })
-            }   
-        }else{
-            console.log("Formulario valido")
-            this.empresaService.crearEmpresa(this.empresaNueva).subscribe((res) => {
-                $('#modalCrearEmpresa').modal('close');
-                this.empresaService.list().subscribe((resEmpresas: any) => {
-                    this.empresas = resEmpresas;
-                }, err => console.error(err));
-                if (this.idioma == 1) {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        text: 'Empresa creada'
-                    })
-                }
-                else {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        text: 'Created company'
-                    })
-                }
-                
-            }, error => {
-                if (this.idioma == 1) {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Hubo un problema al crear la empresa',
-                        icon: 'error',
-                        confirmButtonText: 'Aceptar'
-                    });
-                }
-                else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'There was a problem creating the company',
-                        icon: 'error',
-                        confirmButtonText: 'Ok'
-                    });
-                }
-            });
-        }
-        }
+            }
 
-
-        eliminarEmpresa(id_empresa: any) {
-            if (this.idioma == 2) {
+        }, error => {
+            if (this.idioma == 1) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un problema al crear la empresa',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'There was a problem creating the company',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            }
+        });
+    }
+    eliminarEmpresa(id_empresa: any) {
+        if (this.idioma == 2) {
             Swal.fire({
                 title:"Are you sure you want to delete this company?",
                 text: "This action cannot be undone!",
@@ -368,13 +235,6 @@ export class EmpresaComponent implements OnInit {
             this.empresa.fecha = date;
         }
     }
-
-    nuevaFecha(date?: any) {
-        console.log("fehcaaaaaa:", date);
-        if (date) {
-            this.empresaNueva.fecha = date;
-        }
-    }
     mostrarImagen(id_empresa: any) {
         this.imgEmpresa = null;
         this.fileToUpload = null;
@@ -386,7 +246,6 @@ export class EmpresaComponent implements OnInit {
         }, err => console.error(err));
       }
       cargandoImagen(archivo: any) {
-
         //this.usuario.fotito = 0;
         this.imgEmpresa = null;
         this.fileToUpload = null;
@@ -410,51 +269,52 @@ export class EmpresaComponent implements OnInit {
       }
 
       guardandoImagen() {
-        if (!this.fileToUpload || this.fileToUpload.size === 0) {
-            const errorMessage = (this.idioma === 1) ? "No has seleccionado ninguna imagen" : "You have not selected any image";
-            
-            Swal.fire({
-              title: "Error",
-              text: errorMessage,
-              icon: "error"
-            });
-            return; // Salir de la función si la imagen está vacía
-          }
-        
+        // this.imgEmpresa = null;
+        //this.fileToUpload = null;
+        let imgPromise = this.getFileBlob(this.fileToUpload);
+        imgPromise.then(blob => {
           console.log(this.empresa.id_empresa);
+          //this.usuario.fotito = 2; 
+    
           
-          const imgPromise = this.getFileBlob(this.fileToUpload);
-          imgPromise.then(blob => {
-            this.imagenesService.guardarImagen(this.empresa.id_empresa, "empresas", blob).subscribe(
-              (res: any) => {
-                this.imgEmpresa = blob;
-                console.log("empresa id: ", this.empresa.id_empresa);
-              },
-              err => console.error(err));
-                
-            // Actualizar la URL de la imagen solo para el usuario actual
-            if (this.fileToUpload != null || this.imgEmpresa != null){ 
+          this.imagenesService.guardarImagen(this.empresa.id_empresa, "empresas", blob).subscribe(
+            (res: any) => {
+              this.imgEmpresa = blob;
+              console.log("empresa id: ", this.empresa.id_empresa);
+              
+              // Actualizar la URL de la imagen solo para el usuario actual
+    
               this.imagenActualizada = true; // Aquí se marca la imagen como actualizada
               this.empresaService.actualizarFotito(this.empresa).subscribe((resempresa: any) => {
                 console.log("fotito: ", resempresa);
+                this.empresa.fotito = 2;
+                if (this.empresa.fotito === 2) {
+                  console.log(this.liga);
+                  
+                  //this.liga= environment.API_URI_IMAGES + '/usuarios/' + this.usuario.id + '.jpg?t=';
+                  //console.log("liga de los amigos: ",this.liga);
+                  
+                }
               }, err => console.error(err));
-            }
-          });
-        
     
-            if(this.idioma==1){
-              Swal.fire({
-                title: "Updated",
-                text: "Your image has been updated",
-                icon: "success",didClose:()=>{window.location.reload();}
-            
-              });}else{
-                Swal.fire({
-                  title: "Actualizado",
-                  text: "Tu imagen se ha actualizado",
-                  icon: "success",didClose:()=>{window.location.reload();}
-                });
-            
-            }
+            },
+            err => console.error(err)
+          );
+        });
+    
+        if(this.idioma==1){
+          Swal.fire({
+            title: "Updated",
+            text: "Your image has been updated",
+            icon: "success",didClose:()=>{window.location.reload();}
+    
+          });}else{
+            Swal.fire({
+              title: "Actualizado",
+              text: "Tu imagen se ha actualizado",
+              icon: "success",didClose:()=>{window.location.reload();}
+            });
+    
+        }
       }
 }
