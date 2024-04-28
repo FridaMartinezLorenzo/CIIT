@@ -152,8 +152,7 @@
         </div>
         <div class="input-field col s12">
           <label class="active">{{"Fecha"| translate}}</label>
-          <input *ngIf="idioma == 1" [(ngModel)]="empresaNueva.fecha" type="date" class="validate">
-          <input  *ngIf="idioma == 2" [(ngModel)]="empresaNueva.fecha" placeholder="Seleccione una fecha" bsDatepicker>
+          <input [(ngModel)]="empresaNueva.fecha" type="date" class="validate">
         </div>
         <div class="input-field col s6">
           <label class="active">RFC </label>
