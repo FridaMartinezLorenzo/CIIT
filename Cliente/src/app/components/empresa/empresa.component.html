@@ -139,21 +139,21 @@
     <div style="border: .5px solid #78909c; padding: 10px;">
       <div class="row">
         <div class="input-field col s12">
-          <label class="active" for="nombre_empresa"> {{"Nombre"| translate}} </label>
+          <label class="active" for="nombre_empresa">{{"Nombre"| translate}} </label>
           <input id="nombre_empresa" [(ngModel)]="empresaNueva.nombre_empresa" type="text" class="validate">
         </div>
         <div class="input-field col s12">
-          <label class="active">{{"Dirección"| translate}} </label>
+          <label class="active">{{"Dirección"| translate}}</label>
           <input [(ngModel)]="empresaNueva.direccion" type="text" class="validate">
         </div>
-        <div class="input-field col s12">
-          <label class="active">{{"Fecha"| translate}} </label>
-          <input [(ngModel)]="empresaNueva.fecha" type="text" id="fechaEmpresa" #fechaA
-          (change)="nuevaFecha(fechaA.value)" class="datepicker">
-        </div>
         <div class="input-field col s6">
-          <label class="active">{{"Telefono"| translate}} </label>
+          <label class="active">{{"Telefono"| translate}}</label>
           <input [(ngModel)]="empresaNueva.telefono" type="text" class="validate">
+        </div>
+        <div class="input-field col s12">
+          <label class="active">{{"Fecha"| translate}}</label>
+          <input *ngIf="idioma == 1" [(ngModel)]="empresaNueva.fecha" type="date" class="validate">
+          <input  *ngIf="idioma == 2" [(ngModel)]="empresaNueva.fecha" placeholder="Seleccione una fecha" bsDatepicker>
         </div>
         <div class="input-field col s6">
           <label class="active">RFC </label>
