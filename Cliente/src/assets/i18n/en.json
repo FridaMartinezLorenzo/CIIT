@@ -58,6 +58,7 @@
     "Actualizar Rol": "Update Role",
     "Crear Rol": "Create Role",
     "Español":"Spanish",
+    "Ingles":"English",
     "Actualización de oferta": "Offer update",
     "Crear compañía": "Create company",
     "Correo": "Email",
@@ -65,7 +66,12 @@
     "Puesto":"Job title",
     "Salario":"Salary",
     "Descripcion":"Description",
-    "Horario":"Working hours"
-
+    "Horario":"Working hours",
+    "Actualizar":"Update",
+    "Eliminar":"Delete",
+    "Crear oferta":"Create offer",
+    "Crear oferta laboral":"Create job offer",
+    "Creacion de oferta":"Offer creation",
+    "Cerrar":"Close"
 }
     

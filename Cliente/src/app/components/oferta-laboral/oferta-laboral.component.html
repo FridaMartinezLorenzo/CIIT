@@ -1,16 +1,31 @@
-<a href="javascript: void(0);"><i class="material-icons" (click)="crearOferta()">add</i></a>
-
 <div class="container">
   <h1>{{"Lista de ofertas" | translate}}</h1>
+  <a class="waves-effect waves-light btn modal-trigger" data-target="modalOferta"  (click)="openModalCrearOferta()">{{"Crear oferta" | translate}}</a>  
   <table class="default" *ngIf="ofertas != undefined">
+    <tr>
+      <th></th>
+      <th>{{"Empresa" | translate}}</th>
+      <th>{{"Puesto" | translate}}</th>
+      <th>{{"Salario" | translate}}</th>
+      <th>{{"Descripcion" | translate}}</th>
+      <th>{{"Horario" | translate}}</th>
+      <th>{{"Actualizar" | translate}}</th>
+      <th>{{"Eliminar" | translate}}</th>
+    </tr>
+
     <tr *ngFor="let oferta of ofertas |
     paginate: {
     itemsPerPage: pageSize,
     currentPage: p
     };let i=index">
-    <td>{{oferta.puesto}}</td>
-    <td>{{oferta.salario}}</td>
-    <td>{{oferta.descripcion}}</td>
+    <td *ngIf="empresaNombres[oferta.id_empresa]?.[1] == 1"><img width="64" src="{{liga}}/empresas/{{oferta.id_empresa}}.jpg" alt="{{liga}}/empresas/1.jpg"></td>
+    <td *ngIf="empresaNombres[oferta.id_empresa]?.[1] == 0"><img width="64" src="{{liga}}/empresas/00.jpg" alt="{{liga}}/empresas/1.jpg"></td>
+    <td>{{ empresaNombres[oferta.id_empresa]?.[0] }}</td>
+    <td *ngIf = "idioma==1">{{oferta.puesto}}</td>
+    <td *ngIf = "idioma==2">{{oferta.position}}</td>
+    <td>${{oferta.salario}}</td>
+    <td *ngIf = "idioma==1">{{oferta.descripcion}}</td>
+    <td *ngIf = "idioma==2">{{oferta.description}}</td>
     <td>{{oferta.horario}}</td>
 
     <td><a href="javascript: void(0);" class="space" (click)="actualizarOferta(oferta.idOferta)">
@@ -57,7 +72,7 @@
         <i class="material-icons prefix">chat</i>
         <input [(ngModel)]="oferta.descripcion" type="text" id="telefonoNuevo" name="telefonoNuevo"
           pattern="[0-9]{10}" required>
-        <label for="telefonoNuevo" class="active">{{"descripcion" | translate}}</label>
+        <label for="telefonoNuevo" class="active">{{"Descripcion" | translate}}</label>
       </div>
 
       <div class="input-field">
@@ -87,5 +102,76 @@
         </button>
       </div>
     </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal Structure -->
+<div id="modalOferta" class="modal">
+  <div class="modal-content">
+    <h2>{{"Creacion de oferta" | translate}}</h2>
+    <form>
+      <div class="row s8">
+        <i class="material-icons prefix">domain</i>
+        
+        <label class="active">{{"Empresa" | translate}}</label>
+          <select [(ngModel)]='oferta.id_empresa' class="browser-default" name="empresa"> <!-- broser-default porque es un arreglo-->
+            <option *ngFor="let empresa of empresas" [value]="empresa.id_empresa" > <!--Para poner el valor de cada elemento del arreglo-->
+              {{empresa.nombre_empresa}}
+            </option>
+          </select>
+      </div>
+
+      <div class="input-field">
+        <i class="material-icons prefix">account_circle</i>
+        <input [(ngModel)]="oferta.puesto" type="text" id="nombreNuevo" name="nombreNuevo" required>
+        <label for="nombreNuevo" class="active">{{"Puesto" | translate}}({{"Español" | translate}})</label>
+      </div>
+
+      <div class="input-field">
+        <i class="material-icons prefix">account_circle</i>
+        <input [(ngModel)]="oferta.position" type="text" id="nombreNuevo" name="nombreNuevo" required>
+        <label for="nombreNuevo" class="active">{{"Puesto" | translate}}({{"Ingles" | translate}})</label>
+      </div>
+
+      <div class="input-field">
+        <i class="material-icons prefix">attach_money</i>
+        <input [(ngModel)]="oferta.salario" type="text" id="correoNuevo" name="correoNuevo" required>
+        <label for="correoNuevo" class="active">{{"Salario" | translate}}</label>
+      </div>
+
+      <div class="input-field">
+        <i class="material-icons prefix">chat</i>
+        <input [(ngModel)]="oferta.description" type="text" id="telefonoNuevo" name="telefonoNuevo"
+          pattern="[0-9]{10}" required>
+        <label for="telefonoNuevo" class="active">{{"Descripcion" | translate}}({{"Español" | translate}})</label>
+      </div>
+
+      <div class="input-field">
+        <i class="material-icons prefix">chat</i>
+        <input [(ngModel)]="oferta.descripcion" type="text" id="telefonoNuevo" name="telefonoNuevo"
+          pattern="[0-9]{10}" required>
+        <label for="telefonoNuevo" class="active">{{"Descripcion" | translate}}({{"Ingles" | translate}})</label>
+      </div>
+
+      <div class="input-field">
+        <i class="material-icons prefix">event</i>
+        <input [(ngModel)]="oferta.horario" type="text" id="passwordNuevo" name="passwordNuevo"
+          required>
+        <label for="passwordNuevo" class="active">{{"Horario" | translate}}</label>
+      </div>
+
+    </form>
+
+
+
+  </div>
+  <div class="modal-footer">
+    <a (click)="crearOferta()" class="modal-close waves-effect waves-green btn-flat">{{"Crear oferta laboral" | translate}}</a>
+    <a class="modal-close ">{{"Cerrar" | translate}}</a>
+    
   </div>
 </div>
