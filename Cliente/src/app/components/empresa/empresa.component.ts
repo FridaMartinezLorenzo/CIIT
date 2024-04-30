@@ -138,86 +138,93 @@ export class EmpresaComponent implements OnInit {
         });
     }
     eliminarEmpresa(id_empresa: any) {
-        if (this.idioma == 2) {
-            Swal.fire({
-                title:"Are you sure you want to delete this company?",
-                text: "This action cannot be undone!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, I want to delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.empresaService.eliminarEmpresa(id_empresa).subscribe((resEmpresa: any) => {
-                        console.log("resEmpresa: ", resEmpresa);
-                        this.empresaService.list().subscribe((resEmpresa: any) => {
-                            this.empresas = resEmpresa;
-                            //console.log(resEmpresa);
-                            console.log(this.empresas)
-                        },
-                            err => console.error(err)
-                        );
-                    },  err => {
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'There was a problem deleting the company',
-                            icon: 'error',
-                            confirmButtonText: 'Ok'
-                        });
-                    });
-
-
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success"
-                    });
-                }
-            });
-        } else {
-            console.log("Click en eliminar Empresa");
-            console.log("Identificador del Empresa: ", id_empresa);
-            Swal.fire({
-                title: "¿Estás seguro de eliminar esta empresa?",
-                text: "¡No es posible revertir esta acción!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Sí, quiero eliminarlo!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.empresaService.eliminarEmpresa(id_empresa).subscribe((resEmpresa: any) => {
-                        console.log("resEmpresa: ", resEmpresa);
-                        this.empresaService.list().subscribe((resEmpresa: any) => {
-                            this.empresas = resEmpresa;
-                            //console.log(resEmpresa);
-                            console.log(this.empresas)
-                        },
-                            err => console.error(err)
-                        );
-                    },
-                        err => {
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Hubo un problema al elimnar la empresa',
-                                icon: 'error',
-                                confirmButtonText: 'Aceptar'
-                            });
-                        });
-
-
-                    Swal.fire({
-                        title: "¡Eliminado!",
-                        text: "Tu archivo ha sido eliminado.",
-                        icon: "success"
-                    });
-                }
-            });
-        }
-
+      this.imagenesService.eliminarImagen(id_empresa,'empresas').subscribe((res) => {
+       console.log("elimino imagen")
+        }, err => console.error(err));
     }
+    // eliminarEmpresa(id_empresa: any) {
+//         if (this.idioma == 2) {
+//             Swal.fire({
+//                 title:"Are you sure you want to delete this company?",
+//                 text: "This action cannot be undone!",
+//                 icon: "warning",
+//                 showCancelButton: true,
+//                 confirmButtonColor: "#3085d6",
+//                 cancelButtonColor: "#d33",
+//                 confirmButtonText: "Yes, I want to delete it!"
+//             }).then((result) => {
+//                 if (result.isConfirmed) {
+//                     this.empresaService.eliminarEmpresa(id_empresa).subscribe((resEmpresa: any) => {
+//                         console.log("resEmpresa: ", resEmpresa);
+//                         this.empresaService.list().subscribe((resEmpresa: any) => {
+//                             this.empresas = resEmpresa;
+//                             //console.log(resEmpresa);
+//                             console.log(this.empresas)
+//                         },
+//                             err => console.error(err)
+//                         );
+//                     },  err => {
+//                         Swal.fire({
+//                             title: 'Error',
+//                             text: 'There was a problem deleting the company',
+//                             icon: 'error',
+//                             confirmButtonText: 'Ok'
+//                         });
+//                     });
+
+
+//                     Swal.fire({
+//                         title: "Deleted!",
+//                         text: "Your file has been deleted.",
+//                         icon: "success"
+//                     });
+//                 }
+//             });
+//         } else {
+//             console.log("Click en eliminar Empresa");
+//             console.log("Identificador del Empresa: ", id_empresa);
+//             Swal.fire({
+//                 title: "¿Estás seguro de eliminar esta empresa?",
+//                 text: "¡No es posible revertir esta acción!",
+//                 icon: "warning",
+//                 showCancelButton: true,
+//                 confirmButtonColor: "#3085d6",
+//                 cancelButtonColor: "#d33",
+//                 confirmButtonText: "Sí, quiero eliminarlo!"
+//             }).then((result) => {
+//                 if (result.isConfirmed) {
+//                     this.empresaService.eliminarEmpresa(id_empresa).subscribe((resEmpresa: any) => {
+//                         console.log("resEmpresa: ", resEmpresa);
+//                         this.empresaService.list().subscribe((resEmpresa: any) => {
+//                             this.empresas = resEmpresa;
+//                             //console.log(resEmpresa);
+//                             console.log(this.empresas)
+//                         },
+//                             err => console.error(err)
+//                         );
+//                     },
+//                         err => {
+//                             Swal.fire({
+//                                 title: 'Error',
+//                                 text: 'Hubo un problema al elimnar la empresa',
+//                                 icon: 'error',
+//                                 confirmButtonText: 'Aceptar'
+//                             });
+//                         });
+
+
+//                     Swal.fire({
+//                         title: "¡Eliminado!",
+//                         text: "Tu archivo ha sido eliminado.",
+//                         icon: "success"
+//                     });
+//                 }
+//             });
+//         }
+
+//     }
+
+       
 
     initDatepicker(fecha?: any) {
         let date = "2024-07-26";
