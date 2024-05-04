@@ -42,13 +42,13 @@
     "Tu imagen se ha actualizado":"Tu imagen se ha actualizado",
     "Actualizar empresa" :"Actualizar empresa",
     "Dirección" : "Dirección",
-    "Fecha": "Date",
+    "Fecha": "Fecha",
     "Telefono" : "Telefono",
     "Enviar": "Enviar", 
     "Cancelar":"Cancelar",
     "Nombre" : "Nombre",
-    "Crear empresa": "Create company",
-    "Imagen": "Image",
+    "Crear empresa": "Crear empresa",
+    "Imagen": "Imagen",
     "Anterior": "Anterior",
     "Siguiente ": "Siguiente",
     "Actualizar usuario": "Actualizar usuario",
@@ -58,19 +58,33 @@
     "Actualizar Rol":"Actualizar Rol",
     "Crear Rol":"Crear Rol",
     "Español":"Español",
+    "Ingles":"Inglés",
     "Actualización de oferta":"Actualización de oferta",
     "Crear compañía": "Crear compañía",
     "Correo":"Correo",
     "Empresa":"Empresa",
     "Puesto":"Puesto",
     "Salario":"Salario",
-    "Descripcion":"Descripcion",
-    "Horario":"Horario"
-
-
-
-
-
-
+    "Descripcion":"Descripción",
+    "Horario":"Horario",
+    "Actualizar":"Actualizar",
+    "Crear oferta":"Crear oferta",
+    "Crear oferta laboral":"Crear oferta laboral",
+    "Creacion de oferta":"Creación de oferta",
+    "Cerrar":"Cerrar",
+    "Puesto en español":"Puesto en español",
+    "Puesto en inglés":"Puesto en inglés",
+    "Descripción en español":"Descripción en español",
+    "Descripción en inglés":"Descripción en inglés",
+    "Creación de oferta":"Creación de oferta",
+    "Selecciona una empresa":"Selecciona una empresa",
+    "Oferta actualizada":"Oferta actualizada",
+    "Oferta creada":"Oferta creada",
+    "Empresa no seleccionada":"Empresa no seleccionada",
+    "Por favor, seleccione una empresa a la que asignar la oferta.":"Por favor, seleccione una empresa a la que asignar la oferta.",
+    "Descripción":"Descripción",
+    "Editar":"Editar",
+    "Eliminar":"Eliminar",
+    "La oferta ha sido eliminada.":"La oferta ha sido eliminada."
     }
     

@@ -43,18 +43,6 @@ class Server {
             //console.log(res);
             res.json({ fileName: id + '.jpg' });
         });
-
-        this.app.post('/deletImagen', (req, res) => {
-          
-            const name = req.body.tipo;
-            const id = req.body.id;
-           try{
-            var sourceImg = `${__dirname}/imagenes/` + name + '/' + id + '.jpg'
-            fs.unlinkSync(sourceImg);
-           }catch (err){}
-        
-            res.json("se pudo borrar");
-        });
     }
 
     start() {

@@ -28,8 +28,5 @@ export class EmpresaService {
     return this.http.put(`${environment.API_URI}/empresas/actualizarFotito/${empresa.id_empresa}`,
     empresa);
     }
-    eliminarfot(idfoto:any){
-        
-    }
 
 }

@@ -16,11 +16,5 @@ export class ImagenesService {
       "src": src
     });
   }
-  eliminarImagen(id: any, tipo: any) {
-    return this.http.post(`${environment.API_URI_IMAGES}/deletImagen`, {
-      "id": id,
-      "tipo": tipo,
-     
-    });
-  }
+
 }
