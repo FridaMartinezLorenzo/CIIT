@@ -5,6 +5,7 @@ import { OfertaLaboral } from 'src/app/models/OfertaLaboral';
 import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { OfertaLaboralService } from 'src/app/services/oferta-laboral.service';
+import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 declare var $: any;
 @Component({
@@ -17,12 +18,13 @@ export class OfertaLaboralComponent implements OnInit {
   oferta: OfertaLaboral = new OfertaLaboral();
   ofertaNueva: OfertaLaboral = new OfertaLaboral();
   empresas: Empresa[] = [];
-
+  empresaNombres: { [id: number]: [string, number] } = {};
   idioma: any;
+  liga = '';
   pageSize = 5;
   p = 1;
   constructor(private ofertaService: OfertaLaboralService, private empresaService: EmpresaService, private translate: TranslateService, private cambioIdiomaService: CambioIdiomaService) {
-
+    this.liga = environment.API_URI_IMAGES;
   }
   ngOnInit(): void {
     this.initDatepicker();
@@ -33,7 +35,9 @@ export class OfertaLaboralComponent implements OnInit {
       this.ofertas = resOfertas;
       this.empresaService.list().subscribe((resEmpresa: any) => {
         this.empresas = resEmpresa;
+        this.construirDiccionarioEmpresas();
         console.log("hola mundo", resOfertas);
+        console.log(this.empresaNombres);
       }, err => console.log(err))
     }, err => console.error(err));
 
@@ -46,6 +50,13 @@ export class OfertaLaboralComponent implements OnInit {
           this.idioma = localStorage.getItem('idioma')
         console.log("idioma actual:", this.idioma, " aaaa");
       });
+  }
+
+  construirDiccionarioEmpresas() {
+    this.empresaNombres = {};
+    this.empresas.forEach(empresa => {
+      this.empresaNombres[empresa.id_empresa] = [empresa.nombre_empresa, empresa.fotito];
+    });
   }
   actualizarOferta(id_oferta: any) {
     this.ofertaService.listOne(id_oferta).subscribe((resOferta: any) => {
