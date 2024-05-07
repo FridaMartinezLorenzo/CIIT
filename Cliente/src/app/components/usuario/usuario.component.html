@@ -1,5 +1,6 @@
-<a href="javascript: void(0);"><i class="material-icons" (click)="crearUsuario()">add</i></a>
+
 <h1>{{"Lista de usuarios" | translate}}</h1>
+<a class="waves-effect waves-light btn modal-trigger" data-target="modalCrearUsuario" (click)="crearUsuario()">Crear usuario</a>
 <table class="default" *ngIf="usuarios != undefined">
   <tr *ngFor="let usuario of usuarios |
   paginate: {
@@ -76,8 +77,8 @@
           <input id="nombre_usuario" [(ngModel)]="usuario.nombre" type="text" class="validate">
         </div>
         <div class="input-field col s12">
-          <label class="active">{{'Correo'|translate}}</label>
-          <input [(ngModel)]="usuario.correo" type="text" class="validate">
+          <label class="active" for = "correo_usuario">{{'Correo'|translate}}</label>
+          <input id = "correo_usuario" [(ngModel)]="usuario.correo" type="text" class="validate">
         </div>
         <div class="row col s12">
           <label class="active">{{'Rol'|translate}}</label>

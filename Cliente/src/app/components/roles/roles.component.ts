@@ -3,6 +3,7 @@ import { RolesService } from 'src/app/services/roles.service';
 import { Rol } from 'src/app/models/Rol';
 import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
 import Swal from 'sweetalert2';
+import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 declare var $: any;
 
 @Component({
@@ -48,25 +49,42 @@ export class RolesComponent implements OnInit {
     }, err => console.error(err));
   }
   guardarActualizarRol() {
-    this.rolesService.actualizarRol(this.rol).subscribe((res) => {
-      $('#modalModificarEmpresa').modal('close');
-      this.rolesService.list().subscribe((resRoles: any) => {
-        this.roles = resRoles;
-      }, err => console.error(err));
+    if ((this.rol.name_rol=='') || (this.rol.nombre_rol=='')){
       if (this.idioma == 1) {
         Swal.fire({
           position: 'center',
-          icon: 'success',
-          text: 'Rol Actualizado'
+          icon: 'info',
+          text: 'Existen campos vacios'
         })
       } else {
         Swal.fire({
           position: 'center',
-          icon: 'success',
-          text: 'Updated Rol'
+          icon: 'info',
+          text: 'Empty fields exist'
         })
       }
-    }, err => console.error(err));
+    }else{
+      this.rolesService.actualizarRol(this.rol).subscribe((res) => {
+        $('#modalModificarEmpresa').modal('close');
+        this.rolesService.list().subscribe((resRoles: any) => {
+          this.roles = resRoles;
+        }, err => console.error(err));
+        if (this.idioma == 1) {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: 'Rol Actualizado'
+          })
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: 'Updated Rol'
+          })
+        }
+      }, err => console.error(err));
+    }
+    
   }
   crearRol() {
     this.rolNuevo = new Rol();
@@ -76,25 +94,41 @@ export class RolesComponent implements OnInit {
   }
   guardarNuevoRol() {
     console.log("GuardandoRol")
-    this.rolesService.crearRol(this.rolNuevo).subscribe((res) => {
-      $('#modalCrearEmpresa').modal('close');
-      this.rolesService.list().subscribe((resRoles: any) => {
-        this.roles = resRoles;
-      }, err => console.error(err));
+    if ((this.rolNuevo.name_rol=='') || (this.rolNuevo.nombre_rol=='')){
       if (this.idioma == 1) {
         Swal.fire({
           position: 'center',
-          icon: 'success',
-          text: 'Rol Creado'
+          icon: 'info',
+          text: 'Existen campos vacios'
         })
       } else {
         Swal.fire({
           position: 'center',
-          icon: 'success',
-          text: 'Created Rol'
+          icon: 'info',
+          text: 'Empty fields exist'
         })
       }
-    }, err => console.error(err));
+    }else{
+      this.rolesService.crearRol(this.rolNuevo).subscribe((res) => {
+        $('#modalCrearEmpresa').modal('close');
+        this.rolesService.list().subscribe((resRoles: any) => {
+          this.roles = resRoles;
+        }, err => console.error(err));
+        if (this.idioma == 1) {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: 'Rol Creado'
+          })
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: 'Created Rol'
+          })
+        }
+      }, err => console.error(err));
+    }
   }
   eliminarRol(id_rol: any) {
     console.log("Click en eliminar Rol");

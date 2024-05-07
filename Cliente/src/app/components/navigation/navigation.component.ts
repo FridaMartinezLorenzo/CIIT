@@ -39,9 +39,10 @@ export class NavigationComponent implements OnInit {
   }
 
   enviarMensajeIdioma(idioma:any)
-{
-this.cambioIdiomaService.sendMsg(idioma);
-}
+  {
+    this.cambioIdiomaService.sendMsg(idioma);
+  }
+  
   setIdioma(idioma: any) {
     if (idioma == 1){
       this.translate.use("es");
