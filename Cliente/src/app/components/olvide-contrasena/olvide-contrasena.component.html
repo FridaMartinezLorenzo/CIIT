@@ -1,29 +1,27 @@
-<div class="bodyLogin">
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m12 l8 offset-l2 loginDiv">
-                <div class="row restablecerContainer">
-                    <div class="col s12 m6 l6">
-                        <div class="col s11 offset-s1">
-                        </div>
-                    </div>
-                    <div class="col s12 m5 l5 offset-l1 offset-m1">
-                        <div class="reestablecerTitulo">
-                            <h5>Restablecer Contraseña</h5>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 customInput">
-                                <i class="material-icons prefix">email</i>
-                                <input class="browser-default" type="email" name="email" id="email" placeholder="correo"
-                                 [(ngModel)]="correo"   autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button (click)="enviarCorreo()" class="btn col l12 s12 m12 btnLogin ">ACEPTAR</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="login-page">
+    <div class="form">
+        <ul id="dropdown3" class="dropdown-content idioma-nav">
+            <li (click)="setIdioma(1)"><a>
+                <img class="imagen_icono" src="../../../assets/img/bandera.png" alt="ingles">
+            </a></li>
+            <li (click)="setIdioma(2)">
+                <a>
+                    <img class="imagen_icono" src="../../../assets/img/mexico.png" alt="español">
+                </a>
+            </li>
+        </ul>
+        <li style="float: right; display: block;">
+            <a class="dropdown-trigger" data-target="dropdown3">
+                <i class="material-icons">flag</i>
+            </a>
+        </li>
+        <form class="login-form">
+            <h4 class="Titulo">{{"Restablecer Contraseña" | translate}}</h4>
+            <i class="material-icons prefix">email</i>
+            <input class="browser-default" type="email" name="email" id="email" placeholder="{{'Correo' | translate}}"
+                [(ngModel)]="correo" autocomplete="off">
+            <button class="boton" (click)="enviarCorreo()">{{"ACEPTAR" | translate}}</button>
+            <button class="volver" (click)="volverInicio()">{{"VOLVER" | translate}}</button>
+        </form>
     </div>
 </div>

@@ -15,7 +15,7 @@ export class EmpresaComponent implements OnInit {
     empresas: Empresa[] = [];
     empresa: Empresa = new Empresa();
     empresaNueva: Empresa = new Empresa();
-    pageSize = 2;
+    pageSize = 10;
     p = 1;
     idioma: any = '1';
     liga = '';
@@ -24,36 +24,36 @@ export class EmpresaComponent implements OnInit {
     imagenActualizada = false;
     imagenUrls: { [id: number]: string } = {};
 
-    constructor(private imagenesService: ImagenesService,private empresaService: EmpresaService, private cambioIdiomaService: CambioIdiomaService) {
+    constructor(private imagenesService: ImagenesService, private empresaService: EmpresaService, private cambioIdiomaService: CambioIdiomaService) {
         this.liga = environment.API_URI_IMAGES;
         this.idioma = localStorage.getItem("idioma");
 
         console.log("idioma", this.idioma)
         this.cambioIdiomaService.currentMsg$.subscribe(
             (msg) => {
-              if(msg != ''){
-                this.idioma = msg;
-              }
+                if (msg != '') {
+                    this.idioma = msg;
+                }
                 console.log("idioma actual:", this.idioma, " aaaa");
-                if (this.idioma !=='2' ) {
+                if (this.idioma !== '2') {
                     console.log("idioma actual:", this.idioma);
                     this.inicializarCalendarioES();
                 }
-                else if (this.idioma === '2'){
+                else if (this.idioma === '2') {
                     console.log("idioma actual:", this.idioma);
                     this.inicializarCalendarioEN();
-                } 
+                }
             });
 
 
     }
     inicializarCalendarioEN(): void {
         $('.datepicker').val('');
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.datepicker').datepicker({
                 format: 'dd/mm/yyyy'
             });
-         }); 
+        });
 
     }
 
@@ -61,7 +61,7 @@ export class EmpresaComponent implements OnInit {
         $('.datepicker').val('');
 
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.datepicker').datepicker({
                 format: 'dd/mm/yyyy', // Formato de fecha
                 i18n: {
@@ -119,7 +119,7 @@ export class EmpresaComponent implements OnInit {
                     weekdaysAbbrev: ['D', 'L', 'M', 'M', 'J', 'V', 'S']
                 }
             });
-        });  
+        });
 
     }
     nuevaFecha(date?: any) {
@@ -142,8 +142,7 @@ export class EmpresaComponent implements OnInit {
         }, err => console.error(err));
     }
     guardarActualizarEmpresa() {
-        console.log("Guardar empresa");
-    
+        console.log("Guardar empresa"); 
         if (!this.empresa.descripcion || !this.empresa.description || !this.empresa.direccion || !this.empresa.nombre_empresa || !this.empresa.rfc || !this.empresa.telefono || !this.empresa.fecha) {
             if (this.idioma == '1') {
                 Swal.fire({
@@ -178,26 +177,26 @@ export class EmpresaComponent implements OnInit {
                     });
                 }
             },
-            error => {
-                if (this.idioma == '1') {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Hubo un problema al actualizar la empresa',
-                        icon: 'error',
-                        confirmButtonText: 'Aceptar'
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'There was a problem updating the company',
-                        icon: 'error',
-                        confirmButtonText: 'Ok'
-                    });
-                }
-            });
+                error => {
+                    if (this.idioma == '1') {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Hubo un problema al actualizar la empresa',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'There was a problem updating the company',
+                            icon: 'error',
+                            confirmButtonText: 'Ok'
+                        });
+                    }
+                });
         }
     }
-    
+
 
     crearEmpresa() {
         this.empresaNueva = new Empresa();
@@ -209,7 +208,7 @@ export class EmpresaComponent implements OnInit {
 
     guardarNuevaEmpresa() {
         console.log("Nueva empresa guardando");
-    
+
         if (!this.empresaNueva.descripcion || !this.empresaNueva.description || !this.empresaNueva.direccion || !this.empresaNueva.nombre_empresa || !this.empresaNueva.rfc || !this.empresaNueva.telefono || !this.empresaNueva.fecha) {
             if (this.idioma == '1') {
                 Swal.fire({
@@ -225,11 +224,19 @@ export class EmpresaComponent implements OnInit {
                 });
             }
         } else {
-            console.log("Formulario valido");
+            //console.log("Formulario valido");
             this.empresaService.crearEmpresa(this.empresaNueva).subscribe((res) => {
                 $('#modalCrearEmpresa').modal('close');
                 this.empresaService.list().subscribe((resEmpresas: any) => {
                     this.empresas = resEmpresas;
+                    if(this.fileToUpload != null){
+                        let a = this.empresas.length;
+                        a=a-1;
+                        let prueba = this.empresas[a];
+                        this.empresa = prueba;
+                        this.guardandoImagen();
+                    }
+
                 }, err => console.error(err));
                 if (this.idioma == '1') {
                     Swal.fire({
@@ -244,7 +251,7 @@ export class EmpresaComponent implements OnInit {
                         text: 'Created company'
                     });
                 }
-    
+
             }, error => {
                 if (this.idioma == '1') {
                     Swal.fire({
@@ -264,11 +271,11 @@ export class EmpresaComponent implements OnInit {
             });
         }
     }
-    
+
     eliminarEmpresa(id_empresa: any) {
         if (this.idioma == '2') {
             Swal.fire({
-                title:"Are you sure you want to delete this company?",
+                title: "Are you sure you want to delete this company?",
                 text: "This action cannot be undone!",
                 icon: "warning",
                 showCancelButton: true,
@@ -286,7 +293,7 @@ export class EmpresaComponent implements OnInit {
                         },
                             err => console.error(err)
                         );
-                    },  err => {
+                    }, err => {
                         Swal.fire({
                             title: 'Error',
                             text: 'There was a problem deleting the company',
@@ -367,39 +374,39 @@ export class EmpresaComponent implements OnInit {
         this.imgEmpresa = null;
         this.fileToUpload = null;
         this.empresaService.listOne(id_empresa).subscribe((resEmpresa: any) => {
-          this.empresa = resEmpresa;
-          console.log("Empresa con ID: ", this.empresa.id_empresa);
-          $('#Imagen').modal();
-          $("#Imagen").modal("open");
+            this.empresa = resEmpresa;
+            console.log("Empresa con ID: ", this.empresa.id_empresa);
+            $('#Imagen').modal();
+            $("#Imagen").modal("open");
         }, err => console.error(err));
-      }
-      cargandoImagen(archivo: any) {
+    }
+    cargandoImagen(archivo: any) {
         //this.usuario.fotito = 0;
         this.imgEmpresa = null;
         this.fileToUpload = null;
         this.fileToUpload = archivo.files.item(0);
         console.log("convirtiendo imagen");
-      }
+    }
 
     getFileBlob(file: any) {
         var reader = new FileReader();
         return new Promise(function (resolve, reject) { //Espera a que se cargue la img
-          reader.onload = (function (thefile) {
-            return function (e) {
-              // console.log(e.target?.result)
-              resolve(e.target?.result);
-            };
-    
-          })(file);
-          reader.readAsDataURL(file);
-        });
-    
-      }
+            reader.onload = (function (thefile) {
+                return function (e) {
+                    // console.log(e.target?.result)
+                    resolve(e.target?.result);
+                };
 
-      guardandoImagen() {
+            })(file);
+            reader.readAsDataURL(file);
+        });
+
+    }
+
+    guardandoImagen() {
         if (!this.fileToUpload || this.fileToUpload.size === 0) {
             const errorMessage = (this.idioma === '1') ? "No has seleccionado ninguna imagen" : "You have not selected any image";
-    
+
             Swal.fire({
                 title: "Error",
                 text: errorMessage,
@@ -407,7 +414,7 @@ export class EmpresaComponent implements OnInit {
             });
             return;
         }
-    
+
         console.log(this.empresa.id_empresa);
         const imgPromise = this.getFileBlob(this.fileToUpload);
         imgPromise.then(blob => {
@@ -417,15 +424,15 @@ export class EmpresaComponent implements OnInit {
                     console.log("empresa id: ", this.empresa.id_empresa);
                 },
                 err => console.error(err));
-    
-            if (this.fileToUpload != null || this.imgEmpresa != null) { 
+
+            if (this.fileToUpload != null || this.imgEmpresa != null) {
                 this.imagenActualizada = true;
                 this.empresaService.actualizarFotito(this.empresa).subscribe((resempresa: any) => {
                     console.log("fotito: ", resempresa);
                 }, err => console.error(err));
             }
         });
-    
+
         if (this.idioma === '2') {
             Swal.fire({
                 title: "Updated",
@@ -442,7 +449,25 @@ export class EmpresaComponent implements OnInit {
             });
         }
     }
-    
-      
-      
+
+    validateRFC(): boolean {
+        const rfc = this.empresa.rfc;
+        return /^[A-Za-z0-9]{12}$/.test(rfc);
+    }
+
+    validateNewRFC(): boolean {
+        const rfc = this.empresaNueva.rfc;
+        return /^[A-Za-z0-9]{12}$/.test(rfc);
+    }
+
+    validateTelefono(): boolean {
+        const telefono = this.empresa.telefono;
+        return /^\d{10}$/.test(telefono) && /^\d+$/.test(telefono);
+      }
+
+      validateNewTelefono(): boolean {
+        const telefono = this.empresaNueva.telefono;
+        return /^\d{10}$/.test(telefono) && /^\d+$/.test(telefono);
+      }
+
 }

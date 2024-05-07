@@ -27,7 +27,7 @@ class EmpresasController {
     mostrar_todos_empresa(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("YA ESTAMOS AQUI");
-            const respuesta = yield database_1.default.query('SELECT * FROM empresa');
+            const respuesta = yield database_1.default.query('SELECT * FROM empresa order by id_empresa ASC');
             res.json(respuesta);
         });
     }

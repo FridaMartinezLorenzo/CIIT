@@ -11,7 +11,7 @@ class EmpresasController
     }
     public async mostrar_todos_empresa(req: Request, res: Response ): Promise<void>{
         console.log("YA ESTAMOS AQUI");
-        const respuesta = await pool.query('SELECT * FROM empresa');
+        const respuesta = await pool.query('SELECT * FROM empresa order by id_empresa ASC' );
         res.json( respuesta );
     }
     public async actualizarEmpresa(req: Request, res: Response): Promise<void> {
