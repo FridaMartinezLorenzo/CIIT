@@ -122,18 +122,19 @@
     <h2>{{ "Creación de oferta" | translate }}</h2>
     <form>
       <div class="row">
+        <!-- Cambios que realice en el  html -->
         <div class="row">
           <i class="material-icons prefix">domain</i>
           <label class="active">{{"Empresa" | translate}}</label>
           <select [(ngModel)]='ofertaNueva.id_empresa' class="browser-default" name="empresa">
             <!-- broser-default porque es un arreglo-->
-            <option selected disabled value=0>{{"Selecciona una empresa" | translate}}</option>
             <option *ngFor="let empresa of empresas" [value]="empresa.id_empresa">
               <!--Para poner el valor de cada elemento del arreglo-->
               {{empresa.nombre_empresa}}
             </option>
           </select>
         </div>
+        <!-- Hasta acá terminan los cambios -->
 
         <div class="input-field col s6">
           <i class="material-icons prefix">account_circle</i>

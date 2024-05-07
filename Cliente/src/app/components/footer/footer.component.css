@@ -43,3 +43,9 @@
     width: 20px; /* Tamaño de las imágenes */
     margin-right: 10px; /* Espacio entre el icono y el texto */
 }
+
+#imagenes{
+    width: 50px;
+    height: 50px;
+    padding: 2%;
+}

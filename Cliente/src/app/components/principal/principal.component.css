@@ -4,10 +4,13 @@
     background-color: #6d4c41;
   }
 
-
+  .carousel  {
+    width: 1920px;
+    height: 1080px;
+  }
   .carousel .carousel-item {
-    width: 720px;
-    height: 360px;
+    width: 640px;
+    height: 480px;
   }
 
   .carousel .carousel-item img {
@@ -17,7 +20,7 @@
   }
   header>h1
   {
-    margin-left: 500px;
+    margin-left: 650px;
     font-size: 30px;
   }
 

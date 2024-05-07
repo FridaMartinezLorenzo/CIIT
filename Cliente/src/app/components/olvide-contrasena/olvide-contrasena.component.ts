@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { CorreoService } from 'src/app/services/correo.service';
+import { Router } from '@angular/router';
+import { TranslateService } from "@ngx-translate/core";
+
+declare var $: any;
 
 @Component({
   selector: 'app-olvide-contrasena',
@@ -10,38 +14,48 @@ import { CorreoService } from 'src/app/services/correo.service';
 export class OlvideContrasenaComponent implements OnInit {
 
   correo : string = "";
+  idioma:any;
 
-  constructor(private correosService: CorreoService) {
+  constructor(private router: Router,private correosService: CorreoService,private translate: TranslateService) {
     this.correo = "";
    }
 
   ngOnInit(): void {
+    $(document).ready(function () { $(".dropdown-trigger").dropdown(); });
+    this.idioma = localStorage.getItem('idioma');
+    this.verificarIdioma();
+  }
+
+  volverInicio(){
+    this.router.navigateByUrl('/login');
   }
 
   enviarCorreo() {
     this.correosService.verificarCorreo(this.correo).subscribe((res: any) => {
+      this.idioma = localStorage.getItem('idioma');
+      this.verificarIdioma();
       if (res && res.length > 0) {
         this.correosService.enviarCorreoRecuperarContrasena({ Email: this.correo }).subscribe((res: any) => {
           //console.log('Correo enviado:', res);
           Swal.fire({
-            title: 'Correo enviado',
-            text: 'Se ha enviado un correo a su dirección de correo electrónico',
+            title: this.translate.instant('Correo enviado'),
+            text: this.translate.instant('Se ha enviado un correo a su dirección de correo electrónico'),
             icon: 'success',
             confirmButtonText: 'Aceptar'
           });
         }, error => {
           console.error('Error al enviar el correo:', error);
           Swal.fire({
-            title: 'Error',
-            text: 'Hubo un problema al enviar el correo electrónico',
+            title: this.translate.instant('Error'),
+            text: this.translate.instant('Hubo un problema al enviar el correo electrónico'),
             icon: 'error',
             confirmButtonText: 'Aceptar'
           });
         });
       } else {
         Swal.fire({
-          title: 'Correo no encontrado',
-          text: 'No te encuentras registrado en el sistema o el correo que proporcionaste es incorrecto',
+          title: this.translate.instant('Correo no encontrado'),
+          text: this.translate.instant('No te encuentras registrado en el sistema o el correo que proporcionaste es incorrecto'),
           icon: 'error',
           confirmButtonText: 'Aceptar'
         });
@@ -49,11 +63,27 @@ export class OlvideContrasenaComponent implements OnInit {
     }, error => {
       console.error('Error al verificar el correo:', error);
       Swal.fire({
-        title: 'Error',
-        text: 'Hubo un problema al verificar el correo',
+        title: this.translate.instant('Error'),
+        text: this.translate.instant('Hubo un problema al enviar el correo electrónico'),
         icon: 'error',
         confirmButtonText: 'Aceptar'
       });
     });
+  }
+  setIdioma(idioma:any) {
+    localStorage.removeItem('idioma');
+    if (idioma == 1){
+      this.translate.use("en");
+    }
+    if (idioma == 2){
+      this.translate.use("es");
+    }
+    localStorage.setItem('idioma', idioma.toString());
+  }
+  verificarIdioma(){
+    if(this.idioma == 1)
+      this.translate.use("en");
+    if(this.idioma == 2)
+      this.translate.use("es");
   }
 }
