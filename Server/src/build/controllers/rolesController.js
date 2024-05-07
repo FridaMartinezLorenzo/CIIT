@@ -53,8 +53,17 @@ class RolesController {
         });
     }
     eliminarRol(req, res) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
+            // Obtener nombre_rol del rol que se va a eliminar
+            const respNombreRol = yield database_1.default.query(`SELECT nombre_rol FROM roles WHERE id_rol = ${id}`);
+            const nombreRol = (_a = respNombreRol[0]) === null || _a === void 0 ? void 0 : _a.nombre_rol;
+            // Eliminar ofertas laborales donde aparezca el nombre del rol en el campo puesto
+            yield database_1.default.query(`DELETE FROM ofertalaboral WHERE puesto = '${nombreRol}'`);
+            // Eliminar usuarios con el mismo id_rol
+            yield database_1.default.query(`DELETE FROM usuarios WHERE id_rol = ${id}`);
+            // Eliminar el rol
             const resp = yield database_1.default.query(`DELETE FROM roles WHERE id_rol = ${id}`);
             res.json(resp);
         });
