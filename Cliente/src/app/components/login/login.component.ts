@@ -32,6 +32,7 @@ export class LoginComponent {
       {
         localStorage.setItem('correo', resusuario.correo);
         localStorage.setItem('id_Rol', resusuario.id_Rol);
+        localStorage.setItem('idioma','1');
         this.router.navigateByUrl('/principal');
       }else{
         console.log("Error, usuario o contrasena no valida");
