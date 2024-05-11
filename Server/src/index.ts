@@ -8,6 +8,7 @@ import rolesRoutes from './routes/rolesRoutes';
 import morgan from 'morgan';
 import cors from 'cors';
 import { validarToken } from './middleware/auth'
+import redesRoutes from './routes/redesRoutes';
 //import swaggerDocument from './swagger.json';
 class Server {
     public app: Application;
@@ -31,6 +32,8 @@ class Server {
         this.app.use('/api/empresas', empresasRoutes);
         this.app.use('/api/ofertaLaboral', ofertaLaboralRoutes);
         this.app.use('/api/roles', rolesRoutes);
+        this.app.use('/api/red_social', redesRoutes);
+
     }
     start(): void {
         this.app.listen(this.app.get('port'), () => {

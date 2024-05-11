@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 25-04-2024 a las 03:36:57
--- Versión del servidor: 8.2.0
--- Versión de PHP: 8.2.13
+-- Tiempo de generación: 11-05-2024 a las 23:26:48
+-- Versión del servidor: 8.0.31
+-- Versión de PHP: 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,22 +34,19 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `direccion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `rfc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `telefono` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` text COLLATE utf8mb4_general_ci NOT NULL,
-  `description` text COLLATE utf8mb4_general_ci NOT NULL,
-  `fecha` text COLLATE utf8mb4_general_ci NOT NULL,
-  `fotito` tinyint(1) NOT NULL DEFAULT '0',
+  `responsable` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `responsible` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_empresa`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `empresa`
 --
 
-INSERT INTO `empresa` (`id_empresa`, `nombre_empresa`, `direccion`, `rfc`, `telefono`, `descripcion`, `description`, `fecha`, `fotito`) VALUES
-(1, 'corana s.a de c.v', 'Calle 13', '546546', '', '', '', '', 1),
-(3, 'pepsi s.a de c.v', 'Calle 13', '546546', '2132', '', '', '', 1),
-(4, 'intel', 'Calle 14', '654321', '3221', '', '', '', 0),
-(6, 'coca ', '1', '121', '1', '122', '1211', '2024-04-19', 0);
+INSERT INTO `empresa` (`id_empresa`, `nombre_empresa`, `direccion`, `rfc`, `telefono`, `responsable`, `responsible`) VALUES
+(1, 'corana s.a de c.v', 'Calle 13', '546546', '2132', 'ninguno', 'none'),
+(3, 'pepsi s.a de c.v', 'Calle 13', '546546', '2132', 'ninguno', 'none'),
+(4, 'intel', 'Calle 14', '654321', '3221', 'ninguno', 'none');
 
 -- --------------------------------------------------------
 
@@ -105,6 +102,29 @@ INSERT INTO `oferta_empresa` (`idEmpresa`, `idOferta`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `red_social`
+--
+
+DROP TABLE IF EXISTS `red_social`;
+CREATE TABLE IF NOT EXISTS `red_social` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `nombre` text NOT NULL,
+  `enlace` text NOT NULL,
+  `foto` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `red_social`
+--
+
+INSERT INTO `red_social` (`id`, `nombre`, `enlace`, `foto`) VALUES
+(1, 'facebook', 'https://www.facebook.com/gobmexico', 0),
+(2, 'Twitter', 'https://www.twitter.com/gobmexico', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `roles`
 --
 
@@ -114,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `nombre_rol` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `name_rol` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_rol`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -124,8 +144,7 @@ INSERT INTO `roles` (`id_rol`, `nombre_rol`, `name_rol`) VALUES
 (1, 'Administrador', 'Administrator'),
 (3, 'Usuario', 'User'),
 (8, 'Jefe de Operaciones', 'Operation Boss'),
-(9, 'Prueba', 'Test'),
-(10, 'palero', 'palero en ingles');
+(9, 'Prueba', 'Test');
 
 -- --------------------------------------------------------
 
@@ -142,17 +161,17 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `contrasena` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fotito` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `id_Rol`, `contrasena`, `fotito`) VALUES
-(1, 'Juanito Perez Camacho', 'ejemplito@gmail.com', 1, '$2b$10$BlxJLZCbhDOlw5y9Bflm8.8GtMuXSl1yOyJ/lNUtcSSwdpDQ1eGWa', 1),
-(2, 'Alejandro Rosas', 'Ale@gmail.com', 1, '$2b$10$2Iyvv44GZN/UaMCPQz5B5OMXFLkgegrGH8XesCfjus6A6HH6z.MZm', 1),
-(4, 'Angel Cruz', 'Angel@gmail.com', 1, '$2b$10$FyruYKi5bnAkYa/dmGsouugDFCviSPeAxKCqPabHdkZSLxAvoCUqO', 1),
-(11, 'Luis', 'Luis@gmail.com', 3, '$2b$10$3GH8WrHg71pO4b5jvktg4ucpBSQGGq/WGiivZOVYITOpgnJsfiQrC', 1),
+(1, 'Juanito Perez Camacho', 'juan@gmail.com', 1, '$2b$10$BlxJLZCbhDOlw5y9Bflm8.8GtMuXSl1yOyJ/lNUtcSSwdpDQ1eGWa', 1),
+(2, 'Alejandro Rosas', 'Ale@gmail.com', 3, '$2b$10$2Iyvv44GZN/UaMCPQz5B5OMXFLkgegrGH8XesCfjus6A6HH6z.MZm', 0),
+(4, 'Angel Cruz', 'Angel@gmail.com', 1, '$2b$10$FyruYKi5bnAkYa/dmGsouugDFCviSPeAxKCqPabHdkZSLxAvoCUqO', 0),
+(11, 'Luis', 'Luis@gmail.com', 1, '$2b$10$3GH8WrHg71pO4b5jvktg4ucpBSQGGq/WGiivZOVYITOpgnJsfiQrC', 1),
 (12, 'Pablo', 'Pablo@gmail.com', 1, '$2a$10$B4EnzCk0MNFZ5tm5.rlnU.EpGWLet7HxtGgPtm7pvDZMBgJ3LLRWW', 0),
 (13, 'Mario', 'Mario@gmail.com', 1, '$2a$10$gtE/..4T83zwX5svIOlw7u9XwurDFng8DKr.14N45He5vwpeMcTeG', 0),
 (17, 'Daniel', 'Daniel@gmail.com', 1, '$2a$10$7AuQtBQ/M7Wy.Va3ajmZJ.EELVMZdMJv3rFlTvxExTE4l2WBG3h4K', 0),
@@ -161,8 +180,7 @@ INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `id_Rol`, `contrasena`, `fotit
 (19, 'Monserrat', 'Monserrat@gmail.com', 1, '$2a$10$c14Y15UlXmjrdSpB9oRD4ew.iem36EZEBYHsGUJa25oTzGNqT2BDi', 0),
 (20, 'Cecilia', 'Cecilia@gmail.com', 0, '$2a$10$qMedl5nkRmsCbaraZBp4oOSqBkl5mbpOyun4f/Ou68a0hM17ZgdfS', 0),
 (21, 'Fernanda', 'Fernanda@gmail.com', 0, '$2a$10$pu4SyN2Js4oYfbpJxO/Wt.7tNkpxnIhBv2f15h08f4qhthGIu3NjW', 0),
-(22, 'pruebas', 'pruebas602a@gmail.com', 8, '$2a$10$Rd2/J1obKW54G4VYDO4pBe1J6iDd8pRyZOxdnDfUSGXeU7koYJH6m', 1),
-(23, 'ramon', 'ramon@gmail.com', 3, '$2a$10$piKubxWALb9PQjkJhD.rpOlpDE8AkY/OELt/zPzmOu1vlyRMOZFky', 0);
+(22, 'pruebas', 'pruebas602a@gmail.com', 1, '$2a$10$Rd2/J1obKW54G4VYDO4pBe1J6iDd8pRyZOxdnDfUSGXeU7koYJH6m', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
