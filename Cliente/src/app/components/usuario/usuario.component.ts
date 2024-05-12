@@ -9,7 +9,7 @@ import { ImagenesService } from 'src/app/services/imagenes.service';
 import { environment } from 'src/environments/environment';
 import { ChangeDetectorRef } from '@angular/core';
 import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
-
+import { TranslateService } from '@ngx-translate/core';
 
 declare var $: any;
 
@@ -33,7 +33,8 @@ export class UsuarioComponent implements OnInit {
   imagenUrls: { [id: number]: string } = {};
   idioma: any = 1;
 
-  constructor(private imagenesService: ImagenesService, private usuarioService: UsuarioService, private rolesService: RolesService, private cambioIdiomaService: CambioIdiomaService) {
+  constructor(private imagenesService: ImagenesService, private usuarioService: UsuarioService, private rolesService: RolesService, 
+    private cambioIdiomaService: CambioIdiomaService,private translate: TranslateService) {
     this.imgUsuario = null;
     this.fileToUpload = null;
     this.liga = environment.API_URI_IMAGES;
@@ -95,54 +96,49 @@ export class UsuarioComponent implements OnInit {
         this.usuarioService.list().subscribe((resUsuarios: any) => {
           this.usuarios = resUsuarios;
         }, err => console.error(err));
-        if (this.idioma == 2) {
+        this.translate.get('usuarioCreado').subscribe((translations) => {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            text: "User Created"
-          })
-        } else {
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            text: 'Usuario Creado'
-          })
-        }
+            title: translations.title,
+            text: translations.text,
+            showConfirmButton: true,
+            confirmButtonText: translations.confirmButtonText
+          }).then((result) => {
+            window.location.reload();//Recarga la página
+          });
+
+        });
+
       }
 
       else{
-        if (this.idioma == 2) {
+        this.translate.get('emailRegistrado').subscribe((translations) => {
           Swal.fire({
             position: 'center',
             icon: 'error',
-            text: "The email is already registered"
-          })
-        } else {
-          Swal.fire({
-            position: 'center',
-            icon: 'error',
-            text: 'El correo ya está registrado'
-          })
-        }
+            title: translations.title,
+            text: translations.text,
+            showConfirmButton: true,
+            confirmButtonText: translations.confirmButtonText
+          });
+        });
       }
       }
       , 
       err => console.error(err));
     }
     else {
-      if (this.idioma == '1') {
-        Swal.fire({
+        this.translate.get('rellenarCampos').subscribe((translations) => {
+          Swal.fire({
             position: 'center',
             icon: 'error',
-            text: 'Por favor rellene todos los campos'
+            title: translations.title,
+            text: translations.text,
+            showConfirmButton: true,
+            confirmButtonText: translations.confirmButtonText
+          });
         });
-    } else {
-        Swal.fire({
-            position: 'center',
-            icon: 'error',
-            text: 'Please fill all inputs'
-        });
-    }
     }
   }
 
@@ -176,109 +172,68 @@ export class UsuarioComponent implements OnInit {
       this.usuarioService.list().subscribe((resUsuarios: any) => {
         this.usuarios = resUsuarios;
       }, err => console.error(err));
-      if (this.idioma == 2) {
+      this.translate.get('usuarioActualizado').subscribe((translations) => {
         Swal.fire({
           position: 'center',
           icon: 'success',
-          text: "Updated User"
-        })
-      } else {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          text: 'Usuario Actualizado'
-        })
-      }
+          title: translations.title,
+          text: translations.text,
+          showConfirmButton: true,
+          confirmButtonText: translations.confirmButtonText
+        }).then((result) => {
+          window.location.reload();//Recarga la página
+        });
+
+      });
     }, err => console.error(err));
     }
     else {
-      if (this.idioma == '1') {
+      this.translate.get('rellenarCampos').subscribe((translations) => {
         Swal.fire({
-            position: 'center',
-            icon: 'error',
-            text: 'Por favor rellene todos los campos'
+          position: 'center',
+          icon: 'error',
+          title: translations.title,
+          text: translations.text,
+          showConfirmButton: true,
+          confirmButtonText: translations.confirmButtonText
         });
-    } else {
-        Swal.fire({
-            position: 'center',
-            icon: 'error',
-            text: 'Please fill all inputs'
-        });
-    }
+      });
     }
   }
 
-  eliminarUsuario(id: any) {
-    console.log("Click en eliminar usuario");
-    console.log("Identificador del usuario: ", id);
-    if (this.idioma == 2) {
+  eliminarUsuario(id: any) {//Ya quedó
+    this.translate.get('eliminarUsuario').subscribe((translations) => {
       Swal.fire({
-        title: "Are you sure to delete this user?",
-        text: "It is not possible to reverse this action!",
+        title: translations.title,
+        text: translations.text,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, I want to delete it!"
+        confirmButtonText: translations.confirmButtonText
       }).then((result) => {
         if (result.isConfirmed) {
           this.usuarioService.eliminarUsuario(id).subscribe((resusuario: any) => {
-            console.log("resusuario: ", resusuario);
             this.usuarioService.list().subscribe((resusuario: any) => {
               this.usuarios = resusuario;
-              //console.log(resusuario);
-              console.log(this.usuarios)
+              this.translate.get('usuarioEliminado').subscribe((translations) => {
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: translations.title,
+                  text: translations.text,
+                  showConfirmButton: true,
+                  confirmButtonText: translations.confirmButtonText
+                })
+              });
             },
               err => console.error(err)
             );
           },
             err => console.error(err)
-          );
-
-
-          Swal.fire({
-            title: "Deleted!",
-            text: "User has been deleted",
-            icon: "success"
-          });
-        }
+          );}
       });
-    } else {
-      Swal.fire({
-        title: "¿Estás seguro de eliminar este usuario?",
-        text: "¡No es posible revertir esta acción!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, quiero eliminarlo!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.usuarioService.eliminarUsuario(id).subscribe((resusuario: any) => {
-            console.log("resusuario: ", resusuario);
-            this.usuarioService.list().subscribe((resusuario: any) => {
-              this.usuarios = resusuario;
-              //console.log(resusuario);
-              console.log(this.usuarios)
-            },
-              err => console.error(err)
-            );
-          },
-            err => console.error(err)
-          );
-
-
-          Swal.fire({
-            title: "Eliminado!",
-            text: "El usuario ha sido eliminado.",
-            icon: "success"
-          });
-        }
-      });
-
-    }
-
-
+    });
   }
 
   metodoPrueba() {
@@ -304,7 +259,6 @@ export class UsuarioComponent implements OnInit {
       console.log(this.usuario.id);
       this.imagenesService.guardarImagen(this.usuario.id, "usuarios", blob).subscribe(
         (res: any) => {
-          console.log("Imagen guardada");
           this.imgUsuario = blob;
           this.usuarioService.actualizarFotito(this.usuario).subscribe((resusuario: any) => {
             this.usuario.fotito = 2;
@@ -327,33 +281,30 @@ export class UsuarioComponent implements OnInit {
       this.imagenesService.guardarImagen(this.usuario.id, "usuarios", blob).subscribe(
         (res: any) => {
           this.imgUsuario = blob;
-          console.log("Usuario id: ", this.usuario.id);
+
           this.imagenActualizada = true; // Aquí se marca la imagen como actualizada
           this.usuarioService.actualizarFotito(this.usuario).subscribe((resusuario: any) => {
-            console.log("fotito: ", resusuario);
             this.usuario.fotito = 2;
           }, err => console.error(err));
+          
+          this.translate.get('imagenActualizada').subscribe((translations) => {
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: translations.title,
+              text: translations.text,
+              showConfirmButton: true,
+              confirmButtonText: translations.confirmButtonText
+            }).then((result) => {
+              window.location.reload();//Recarga la página
+            });
+          });
 
         },
         err => console.error(err)
       );
     });
 
-    if (this.idioma == 1) {
-      Swal.fire({
-        title: "Updated",
-        text: "Your image has been updated",
-        icon: "success", didClose: () => { window.location.reload(); }
-
-      });
-    } else {
-      Swal.fire({
-        title: "Actualizado",
-        text: "Tu imagen se ha actualizado",
-        icon: "success", didClose: () => { window.location.reload(); }
-      });
-
-    }
   }
 
 

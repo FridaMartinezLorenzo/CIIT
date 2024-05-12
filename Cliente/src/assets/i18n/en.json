@@ -111,7 +111,45 @@
     "Ingrese su nueva contraseña":"Enter your new password",
     "Nueva Contraseña": "New password",
     "Contraseña Anterior": "Old password",
-    "CONFIRMAR": "CONFIRM"   
+    "CONFIRMAR": "CONFIRM",
+    "usuarioCreado":{
+        "title": "User created",
+        "text": "The user has been created successfully",
+        "confirmButtonText": "Accept"
+    },
+    "emailRegistrado":{
+        "title": "Email registered",
+        "text": "The email is already registered",
+        "confirmButtonText": "Accept"
+    
+    },
+    "rellenarCampos":{
+        "title": "Fill in all fields",
+        "text": "Please fill in all fields",
+        "confirmButtonText": "Accept"
+    },
+    "usuarioActualizado":{
+        "title": "User updated",
+        "text": "The user has been updated successfully",
+        "confirmButtonText": "Accept"
+    },
+    "imagenActualizada":{
+        "title": "Image updated",
+        "text": "The image has been updated successfully",
+        "confirmButtonText": "Accept"
+    },
+    "eliminarUsuario":{
+        "title": "Are you sure?",
+        "text": "It is not possible to reverse this action!",
+        "confirmButtonText": "Yes, I want to delete it!",
+        "cancelButtonText": "Cancel"
+    },
+    "usuarioEliminado":{
+        "title": "Deleted!",
+        "text": "The user has been deleted successfully",
+        "confirmButtonText": "Accept"
+    }
+    
 }
     
     

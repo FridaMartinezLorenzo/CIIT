@@ -110,6 +110,43 @@
     "Ingrese su nueva contraseña":"Ingrese su nueva contraseña",
     "Nueva Contraseña": "Nueva Contraseña",
     "Contraseña Anterior": "Contraseña Anterior",
-    "CONFIRMAR": "CONFIRMAR"
+    "CONFIRMAR": "CONFIRMAR",
+    "usuarioCreado":{
+        "title": "Usuario creado",
+        "text": "El usuario ha sido creado exitosamente",
+        "confirmButtonText": "Aceptar"
+    },
+    "emailRegistrado":{
+        "title": "Correo registrado",
+        "text": "El correo ya se encuentra registrado",
+        "confirmButtonText": "Aceptar"
+    },
+    "rellenarCampos":{
+        "title": "Rellenar campos",
+        "text": "Por favor llene todos los campos",
+        "confirmButtonText": "Aceptar"
+    
+    },
+    "usuarioActualizado":{
+        "title": "Usuario actualizado",
+        "text": "El usuario ha sido actualizado exitosamente",
+        "confirmButtonText": "Aceptar"
+    },
+    "imagenActualizada":{
+        "title": "Imagen actualizada",
+        "text": "La imagen ha sido actualizada exitosamente",
+        "confirmButtonText": "Aceptar"
+    },
+    "eliminarUsuario":{
+        "title": "Estás seguro?",
+        "text": "¿No es posible revertir esta acción?",
+        "confirmButtonText": "Sí, quiero eliminarlo!",
+        "cancelButtonText": "Cancelar"
+    },
+    "usuarioEliminado":{
+        "title": "Usuario eliminado",
+        "text": "El usuario ha sido eliminado exitosamente",
+        "confirmButtonText": "Aceptar"
+    }
 }
     
