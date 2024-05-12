@@ -110,7 +110,8 @@
     "Ingrese su nueva contraseña":"Enter your new password",
     "Nueva Contraseña": "New password",
     "Contraseña Anterior": "Old password",
-    "CONFIRMAR": "CONFIRM"   
+    "CONFIRMAR": "CONFIRM",
+    "Nombre del rol": "Role name" 
 }
     
     
