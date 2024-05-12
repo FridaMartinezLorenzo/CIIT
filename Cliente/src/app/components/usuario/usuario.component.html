@@ -48,13 +48,6 @@
     <div style="border: .5px solid #78909c; padding: 10px;">
       <div class="row">
         <div class="input-field col s12">
-        <!--
-                  <div align="center">
-            <img *ngIf="usuario.fotito == 1" width="64" src="{{liga}}/usuarios/{{usuario.id}}.jpg" alt="{{liga}}/usuarios/1.jpg">
-            <img *ngIf="usuario.fotito == 0" width="64" src="{{liga}}/usuarios/0.jpg" alt="{{liga}}/usuarios/1.jpg">
-          </div> 
-        </div>
-      -->
         <div class="input-field col s6">
           <br><br>
           <input type="file" (change)="cargandoImagen($event.target)" multiple>
@@ -128,6 +121,15 @@
       </div>
     </div>
     <div style="border: .5px solid #78909c; padding: 10px;">
+      <div class="row1">
+        <div>
+          <img *ngIf="this.fileToUpload==null" width="80" src="{{liga}}/usuarios/00.jpg" alt="{{liga}}/usuarios/1.jpg">
+          <img *ngIf="urlImagen" [src]="urlImagen" width="80" alt="Imagen seleccionada">
+
+        </div>
+        <input type="file" (change)="cargandoImagen($event.target)" multiple>
+      </div>
+
       <div class="row">
         <div class="input-field col s12">
           <label class="active" for="nombre_usuario">{{'Nombre'|translate}}</label>

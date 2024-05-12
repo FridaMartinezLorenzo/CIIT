@@ -18,7 +18,6 @@ const database_1 = __importDefault(require("../database")); //acceso a la base d
 class UsuariosController {
     mostrar_todos_usuarios(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("YA ESTAMOS AQUI");
             const respuesta = yield database_1.default.query('SELECT * FROM usuarios');
             res.json(respuesta);
         });
@@ -37,14 +36,18 @@ class UsuariosController {
     //aqui va el crud
     createUsuario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //console.log(req.body)
             const salt = yield bcryptjs_1.default.genSalt(10);
+            const { correo } = req.body;
             req.body.contrasena = yield bcryptjs_1.default.hash(req.body.contrasena, salt);
-            //console.log(req.body.contrasena);
-            //console.log(await bcrypt.hash(req.body.password, salt))
             try {
+                const hayCorreo = yield database_1.default.query("SELECT id FROM usuarios WHERE correo = ?", [correo]);
+                if (hayCorreo.length > 0) //Si hay un correo igual ya no inserta
+                 {
+                    res.json(false);
+                    return;
+                }
                 const resp = yield database_1.default.query("INSERT INTO usuarios set ?", [req.body]);
-                res.json(1);
+                res.json(resp);
             }
             catch (error) {
                 console.log(error);
@@ -54,11 +57,8 @@ class UsuariosController {
     actualizarUsuario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            //console.log(req.params);
-            console.log(id);
             const resp = yield database_1.default.query("UPDATE usuarios set ? WHERE id = ?", [req.body, id]);
             res.json(resp);
-            //res.json(null);
         });
     }
     eliminarUsuario(req, res) {
@@ -84,8 +84,6 @@ class UsuariosController {
         return __awaiter(this, void 0, void 0, function* () {
             const parametros = req.body;
             const consulta = "SELECT * FROM usuarios WHERE correo = ?";
-            //console.log(parametros);
-            //console.log(consulta);
             try {
                 const respuesta = yield database_1.default.query(consulta, [parametros.correo]);
                 if (respuesta.length > 0) {
@@ -101,18 +99,15 @@ class UsuariosController {
                             res.json(prueba);
                         }
                         else {
-                            console.log("Contraseña incorrecta");
                             res.json({ id_Rol: "-1" });
                         }
                     });
                 }
                 else {
-                    console.log("Usuario no encontrado");
                     res.json({ id_Rol: "-1" });
                 }
             }
             catch (error) {
-                console.error("Error al validar usuario:", error);
                 res.status(500).json({ mensaje: 'Error en el servidor' });
             }
         });
@@ -132,7 +127,6 @@ class UsuariosController {
             const { token } = req.params;
             //Destokenizamos
             const decoded = decodeJWT(token);
-            console.log(decoded);
             const salt = yield bcryptjs_1.default.genSalt(10);
             req.body.contrasena = yield bcryptjs_1.default.hash(req.body.contrasena, salt);
             const resp = yield database_1.default.query("UPDATE usuarios set ? WHERE correo = ?", [req.body, decoded]);
@@ -142,7 +136,6 @@ class UsuariosController {
     actualizarFotito(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            console.log(id);
             const resp = yield database_1.default.query("UPDATE usuarios set fotito = 1 WHERE id = ?", [id]);
             res.json(resp);
         });

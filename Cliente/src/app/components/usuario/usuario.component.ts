@@ -22,6 +22,7 @@ export class UsuarioComponent implements OnInit {
   usuarios: Usuario[] = [];
   usuario: Usuario = new Usuario();
   usuarioNuevo: Usuario = new Usuario();
+  urlImagen: any;
   roles: Rol[] = []
   pageSize = 4;
   p = 1;
@@ -65,23 +66,36 @@ export class UsuarioComponent implements OnInit {
   }
 
   crearUsuario() {
+    //Limpiar el usuarioNuevo de los valores que tiene el modelo por defecto
     this.usuarioNuevo = new Usuario();
+    this.usuarioNuevo.nombre = "";
+    this.usuarioNuevo.correo = "";
+    this.usuarioNuevo.contrasena = "";
     $("#modalCrearUsuario").modal('open');
   }
 
   // Método para guardar un nuevo usuario
   
   guardarNuevoUsuario() {
-    console.log("GuardandoUsuario")
+
     if (this.usuarioNuevo.nombre != "" && this.usuarioNuevo.correo != "" && this.usuarioNuevo.contrasena != "") {
-      console.log("entro")
-      this.usuarioService.crearUsuario(this.usuarioNuevo).subscribe((res) => {
-        $('#modalCrearUsuario').modal('close');
+      this.usuarioService.crearUsuario(this.usuarioNuevo).subscribe((res:any) => 
+        {
+          if(res!=false)//Si el correo ya existe no se inserta
+        {
+          var id_usuario = res.insertId;
+
+          if(this.fileToUpload!=null )
+            {
+
+              this.guardarImagen(id_usuario);
+            }
+
+          $('#modalCrearUsuario').modal('close');
         this.usuarioService.list().subscribe((resUsuarios: any) => {
           this.usuarios = resUsuarios;
         }, err => console.error(err));
         if (this.idioma == 2) {
-          console.log("Eh wey, estás ahí?")
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -94,7 +108,26 @@ export class UsuarioComponent implements OnInit {
             text: 'Usuario Creado'
           })
         }
-      }, err => console.error(err));
+      }
+
+      else{
+        if (this.idioma == 2) {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            text: "The email is already registered"
+          })
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            text: 'El correo ya está registrado'
+          })
+        }
+      }
+      }
+      , 
+      err => console.error(err));
     }
     else {
       if (this.idioma == '1') {
@@ -254,41 +287,51 @@ export class UsuarioComponent implements OnInit {
 
 
   cargandoImagen(archivo: any) {
-    //this.usuario.fotito = 0;
     this.imgUsuario = null;
     this.fileToUpload = null;
     this.fileToUpload = archivo.files.item(0);
-    console.log("convirtiendo imagen");
+
+  }
+  guardarImagen(idUsuario?: any) {
+    if (idUsuario>0) {//se crea un nuevo usuario
+      this.usuarioService.listOne(idUsuario).subscribe((resUsuario: any) => {
+        this.usuario = resUsuario;
+      }); //Se obtiene el usuario creado
+      this.usuario.id = idUsuario;
+    }
+    let imgPromise = this.getFileBlob(this.fileToUpload);
+    imgPromise.then(blob => {
+      console.log(this.usuario.id);
+      this.imagenesService.guardarImagen(this.usuario.id, "usuarios", blob).subscribe(
+        (res: any) => {
+          console.log("Imagen guardada");
+          this.imgUsuario = blob;
+          this.usuarioService.actualizarFotito(this.usuario).subscribe((resusuario: any) => {
+            this.usuario.fotito = 2;
+            if (this.usuario.fotito === 2) {
+              console.log(this.liga);
+            }
+          }, err => console.error(err));
+
+        },
+        err => console.error(err)
+      );
+    });
   }
 
 
   guardandoImagen() {
-    // this.imgUsuario = null;
-    //this.fileToUpload = null;
     let imgPromise = this.getFileBlob(this.fileToUpload);
     imgPromise.then(blob => {
       console.log(this.usuario.id);
-      //this.usuario.fotito = 2; 
-
-
       this.imagenesService.guardarImagen(this.usuario.id, "usuarios", blob).subscribe(
         (res: any) => {
           this.imgUsuario = blob;
           console.log("Usuario id: ", this.usuario.id);
-
-          // Actualizar la URL de la imagen solo para el usuario actual
-
           this.imagenActualizada = true; // Aquí se marca la imagen como actualizada
           this.usuarioService.actualizarFotito(this.usuario).subscribe((resusuario: any) => {
             console.log("fotito: ", resusuario);
             this.usuario.fotito = 2;
-            if (this.usuario.fotito === 2) {
-              console.log(this.liga);
-
-              //this.liga= environment.API_URI_IMAGES + '/usuarios/' + this.usuario.id + '.jpg?t=';
-              //console.log("liga de los amigos: ",this.liga);
-
-            }
           }, err => console.error(err));
 
         },
@@ -320,7 +363,6 @@ export class UsuarioComponent implements OnInit {
     return new Promise(function (resolve, reject) { //Espera a que se cargue la img
       reader.onload = (function (thefile) {
         return function (e) {
-          // console.log(e.target?.result)
           resolve(e.target?.result);
         };
 

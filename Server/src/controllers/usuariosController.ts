@@ -5,7 +5,6 @@ import pool from '../database'; //acceso a la base de datos
 class UsuariosController
 {
 public async mostrar_todos_usuarios(req: Request, res: Response ): Promise<void>{
-console.log("YA ESTAMOS AQUI");
 const respuesta = await pool.query('SELECT * FROM usuarios');
 res.json( respuesta );
 }
@@ -20,14 +19,19 @@ res.status(404).json({'mensaje': 'Usuario no encontrado'});
 }
 //aqui va el crud
 public async createUsuario(req: Request, res: Response): Promise<void> {
-    //console.log(req.body)
     const salt = await bcrypt.genSalt(10);
+    const {correo} = req.body;
     req.body.contrasena = await bcrypt.hash(req.body.contrasena, salt);
-    //console.log(req.body.contrasena);
-    //console.log(await bcrypt.hash(req.body.password, salt))
+
     try {
+        const hayCorreo= await pool.query("SELECT id FROM usuarios WHERE correo = ?", [correo]);
+        if(hayCorreo.length>0)//Si hay un correo igual ya no inserta
+            {
+            res.json(false);
+            return;
+        }
         const resp = await pool.query("INSERT INTO usuarios set ?", [req.body]);
-        res.json(1);
+        res.json(resp);
     } catch (error) {
         console.log(error);
     }       
@@ -35,11 +39,8 @@ public async createUsuario(req: Request, res: Response): Promise<void> {
 
 public async actualizarUsuario(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    //console.log(req.params);
-    console.log(id);
     const resp = await pool.query("UPDATE usuarios set ? WHERE id = ?", [req.body, id]);
     res.json(resp);
-    //res.json(null);
 }
 
 public async eliminarUsuario(req: Request, res: Response): Promise<void> {
@@ -62,8 +63,6 @@ public async listarUsuariosRol(req: Request, res: Response): Promise<void> {
 public async ValidarUsuario(req: Request, res: Response): Promise<void> {
     const parametros = req.body;
     const consulta = "SELECT * FROM usuarios WHERE correo = ?";
-    //console.log(parametros);
-    //console.log(consulta);
     try {
         const respuesta = await pool.query(consulta, [parametros.correo]);
         if (respuesta.length > 0) {
@@ -78,16 +77,13 @@ public async ValidarUsuario(req: Request, res: Response): Promise<void> {
                     };
                     res.json(prueba);
                 } else {
-                    console.log("Contraseña incorrecta");
                     res.json({ id_Rol: "-1" });
                 }
             });
         } else {
-            console.log("Usuario no encontrado");
             res.json({ id_Rol: "-1" });
         }
     } catch (error) {
-        console.error("Error al validar usuario:", error);
         res.status(500).json({ mensaje: 'Error en el servidor' });
     }
 }  
@@ -106,7 +102,6 @@ public async actualizarContrasena(req: Request, res: Response): Promise<void> {
     const {token} = req.params;
     //Destokenizamos
     const decoded = decodeJWT(token);
-    console.log(decoded);
 
     const salt = await bcrypt.genSalt(10);
     req.body.contrasena = await bcrypt.hash(req.body.contrasena, salt)
@@ -116,7 +111,6 @@ public async actualizarContrasena(req: Request, res: Response): Promise<void> {
 
 public async actualizarFotito(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    console.log(id);
     const resp = await pool.query("UPDATE usuarios set fotito = 1 WHERE id = ?", [id]);
     res.json(resp);
 }
