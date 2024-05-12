@@ -109,7 +109,7 @@
     "VOLVER":"RETURN",
     "Ingrese su nueva contraseña":"Enter your new password",
     "Nueva Contraseña": "New password",
-    "Contraseña Anterior": "Old password",
+    "Confirme Contraseña":"Confirm Password",
     "CONFIRMAR": "CONFIRM"   
 }
     

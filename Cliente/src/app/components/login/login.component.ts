@@ -32,7 +32,6 @@ export class LoginComponent {
       {
         localStorage.setItem('correo', resusuario.correo);
         localStorage.setItem('id_Rol', resusuario.id_Rol);
-        localStorage.setItem('idioma','1');
         this.router.navigateByUrl('/principal');
       }else{
         console.log("Error, usuario o contrasena no valida");
@@ -44,17 +43,17 @@ export class LoginComponent {
   setIdioma(idioma:any) {
     localStorage.removeItem('idioma');
     if (idioma == 1){
-      this.translate.use("en");
+      this.translate.use("es");
     }
     if (idioma == 2){
-      this.translate.use("es");
+      this.translate.use("en");
     }
     localStorage.setItem('idioma', idioma.toString());
   }
   verificarIdioma(){
     if(this.idioma == 1)
-      this.translate.use("en");
-    if(this.idioma == 2)
       this.translate.use("es");
+    if(this.idioma == 2)
+      this.translate.use("en");
   }
 }
