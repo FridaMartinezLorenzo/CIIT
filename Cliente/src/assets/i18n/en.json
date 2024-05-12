@@ -110,7 +110,9 @@
     "Ingrese su nueva contraseña":"Enter your new password",
     "Nueva Contraseña": "New password",
     "Contraseña Anterior": "Old password",
-    "CONFIRMAR": "CONFIRM"   
+    "CONFIRMAR": "CONFIRM",
+    "Nombre Rol en Español" : "Name Rol in Spanish",
+    "Nombre Rol en Inglés": "Name Rol in English"
 }
     
     
