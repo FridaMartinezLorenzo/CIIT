@@ -49,7 +49,7 @@ export class NavigationComponent implements OnInit {
       this.enviarMensajeIdioma(1);
       localStorage.setItem("idioma","1")
     }  
-    if (idioma == '2' ){
+    if (idioma == '2'){
       this.translate.use("en");
       this.enviarMensajeIdioma(2);
       localStorage.setItem("idioma","2")
