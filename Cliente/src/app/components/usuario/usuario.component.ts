@@ -238,7 +238,7 @@ export class UsuarioComponent implements OnInit {
 
           Swal.fire({
             title: "Deleted!",
-            text: "Your file has been deleted",
+            text: "User has been deleted",
             icon: "success"
           });
         }
@@ -270,7 +270,7 @@ export class UsuarioComponent implements OnInit {
 
           Swal.fire({
             title: "Eliminado!",
-            text: "Tu archivo ha sido eliminado.",
+            text: "El usuario ha sido eliminado.",
             icon: "success"
           });
         }
