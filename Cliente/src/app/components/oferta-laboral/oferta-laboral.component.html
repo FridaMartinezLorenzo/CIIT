@@ -5,6 +5,7 @@
   <table class="default moved-table iconos-table" *ngIf="ofertas != undefined">
     <thead>
       <tr>
+        <th class="header-color">{{"Empresa" | translate}}</th>
         <th class="header-color">{{"Puesto" | translate}}</th>
         <th class="header-color">{{"Salario" | translate}}</th>
         <th class="header-color">{{"Descripción" | translate}}</th>
@@ -19,6 +20,7 @@
         itemsPerPage: pageSize,
         currentPage: p
       };let i=index">
+        <td>{{ empresaNombres[oferta.id_empresa]?.[0] }}</td>
         <td *ngIf="idioma==1">{{oferta.puesto}}</td>
         <td *ngIf="idioma==2">{{oferta.position}}</td>
         <td>{{oferta.salario}}</td>

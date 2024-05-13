@@ -19,6 +19,7 @@ export class LoginComponent {
   }
   ngOnInit(): void {
     $(document).ready(function () { $(".dropdown-trigger").dropdown(); });
+    localStorage.setItem('idioma', '1');
     this.idioma = localStorage.getItem('idioma');
     this.verificarIdioma();
   }
@@ -29,13 +30,20 @@ export class LoginComponent {
     this.usuarioService.existe(this.usuario.correo,this.usuario.contrasena).subscribe((resusuario: any) =>
     {
       if(resusuario.id_Rol != -1)
-      {
-        localStorage.setItem('correo', resusuario.correo);
-        localStorage.setItem('id_Rol', resusuario.id_Rol);
-        this.router.navigateByUrl('/principal');
-      }else{
-        console.log("Error, usuario o contrasena no valida");
-      }
+        {
+          localStorage.setItem('correo', resusuario.correo);
+          localStorage.setItem('id_Rol', resusuario.id_Rol);
+          localStorage.setItem('idioma','1');
+          this.router.navigateByUrl('/principal');
+          if (resusuario.id_Rol == 1) {
+            this.router.navigateByUrl('/home/noticias');
+            
+          } else
+          this.router.navigateByUrl('/cliente/principal');
+          console.log("Entrando como Cliente");
+        }else{ 
+          console.log("Error, usuario o contrasena no valida");
+        }
     },
     err => console.error(err)
     );

@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const usuariosRoutes_1 = __importDefault(require("./routes/usuariosRoutes"));
 const empresasRoutes_1 = __importDefault(require("./routes/empresasRoutes"));
@@ -11,13 +12,15 @@ const ofertaLaboralRoutes_1 = __importDefault(require("./routes/ofertaLaboralRou
 const rolesRoutes_1 = __importDefault(require("./routes/rolesRoutes"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
-//import swaggerDocument from './swagger.json';
+const redesRoutes_1 = __importDefault(require("./routes/redesRoutes"));
+const noticiasRoutes_1 = __importDefault(require("./routes/noticiasRoutes"));
+const swagger_json_1 = __importDefault(require("./swagger.json"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
         this.config();
         this.routes();
-        //this.app.use('/documentacion', swagger_ui_express.serve, swagger_ui_express.setup(swaggerDocument));
+        this.app.use('/documentacion', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
     }
     config() {
         this.app.set('port', process.env.PORT || 3000); //En que puerto va a ejecutar
@@ -32,6 +35,8 @@ class Server {
         this.app.use('/api/empresas', empresasRoutes_1.default);
         this.app.use('/api/ofertaLaboral', ofertaLaboralRoutes_1.default);
         this.app.use('/api/roles', rolesRoutes_1.default);
+        this.app.use('/api/red_social', redesRoutes_1.default);
+        this.app.use('/api/noticias', noticiasRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {

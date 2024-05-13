@@ -9,14 +9,15 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { validarToken } from './middleware/auth'
 import redesRoutes from './routes/redesRoutes';
-//import swaggerDocument from './swagger.json';
+import noticiasRoutes from './routes/noticiasRoutes';
+import swaggerDocument from './swagger.json';
 class Server {
     public app: Application;
     constructor() {
         this.app = express();
         this.config();
         this.routes();
-        //this.app.use('/documentacion', swagger_ui_express.serve, swagger_ui_express.setup(swaggerDocument));
+        this.app.use('/documentacion', swagger_ui_express.serve, swagger_ui_express.setup(swaggerDocument));
     }
 
     config(): void {
@@ -33,6 +34,7 @@ class Server {
         this.app.use('/api/ofertaLaboral', ofertaLaboralRoutes);
         this.app.use('/api/roles', rolesRoutes);
         this.app.use('/api/red_social', redesRoutes);
+        this.app.use('/api/noticias', noticiasRoutes);
     }
     start(): void {
         this.app.listen(this.app.get('port'), () => {
