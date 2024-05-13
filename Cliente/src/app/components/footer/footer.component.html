@@ -9,17 +9,19 @@
 
             <div class="col s2">
                 {{'Siguenos en'|translate}}
-                <br>    
-                <a href="https://www.facebook.com/gobmexico">
-                    <img id="imagenes" src="../../../assets/footer/facebook.png" alt="facebook ">
-                </a>
-                <a href="https://twitter.com/GobiernoMX">
-                    <img id="imagenes" src="../../../assets/footer/x.png" alt="twitter">
-                </a>
-                
+                <br>
+                <table>
+                    <td *ngFor="let red of redes_sociales">
+
+                        <a href={{red.enlace}}>
+                            <img id="imagenes" src="{{liga}}/red/{{red.id}}.jpg" alt="{{red.nombre}} ">
+                        </a>
+                    </td>
+                </table>
+
             </div>
-           
-              
+
+
             <!-- <div (click)="redes()" class="btn tooltipped waves-effect btn-small btn-personalizado" data-position="bottom" 
                 [attr.data-tooltip]="getTooltip()">
             <i class="material-icons">add</i>

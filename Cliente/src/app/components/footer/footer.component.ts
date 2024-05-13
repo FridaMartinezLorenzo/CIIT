@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
 import { Router } from '@angular/router';
+import { RedesService } from 'src/app/services/redes.service';
+import { Redsocial } from 'src/app/models/red';
+import { environment } from 'src/environments/environment';
 declare var $: any;
 @Component({
   selector: 'app-footer',
@@ -9,9 +12,12 @@ declare var $: any;
 })
 export class FooterComponent implements OnInit {
   idioma: any = '1';
+  redes_sociales: Redsocial[] = [];
+  liga = '';
 
-  constructor(private cambioIdiomaService: CambioIdiomaService, private router: Router) { 
+  constructor(private redService: RedesService  ,private cambioIdiomaService: CambioIdiomaService, private router: Router) { 
     this.idioma = localStorage.getItem("idioma");
+    this.liga = environment.API_URI_IMAGES;
 
   }
 
@@ -26,6 +32,10 @@ export class FooterComponent implements OnInit {
           this.idioma = localStorage.getItem('idioma')
         console.log("idioma actual del footer:", this.idioma, " aaaa");
       });
+      this.redService.list().subscribe((red_social: any) => {
+        this.redes_sociales  = red_social
+      }, err => console.error(err));
+      
 
   }
   getTooltip() {
