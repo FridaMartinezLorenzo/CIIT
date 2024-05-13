@@ -1,43 +1,45 @@
-<h1>{{"Lista de usuarios" | translate}}</h1>
-<a class="waves-effect waves-light btn modal-trigger" data-target="modalCrearUsuario" (click)="crearUsuario()">{{"Crear usuario"|translate}}</a>
-<table class="default" *ngIf="usuarios != undefined">
-  <thead>
-    <tr>
-      <th>{{"Imagen" | translate}}</th>
-      <th>{{"Nombre" | translate}}</th>
-      <th>{{"Correo" | translate}}</th>
-      <th>{{"Editar" | translate}}</th>
-      <th>{{"Editar imagen" | translate}}</th>
-      <th>{{"Eliminar" | translate}}</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let usuario of usuarios |
-    paginate: {
-    itemsPerPage: pageSize,
-    currentPage: p
-    };let i=index">
-      <!--<td *ngIf="usuario.fotito == 1"><img width="64" src="{{imagenUrls[usuario.id]}}/usuarios/{{usuario.id}}.jpg" alt="{{liga}}/usuarios/1.jpg"></td>-->
-      <td *ngIf="usuario.fotito == 1"><img width="64" src="{{liga}}/usuarios/{{usuario.id}}.jpg"
-          alt="{{liga}}/usuarios/1.jpg"></td>
-      <td *ngIf="usuario.fotito == 0"><img width="64" src="{{liga}}/usuarios/00.jpg" alt="{{liga}}/usuarios/1.jpg"></td>
-      <td>{{usuario.nombre }}</td>
-      <td>{{usuario.correo}}</td>
-      <td><a href="javascript: void(0);" class="space" (click)="actualizarUsuario(usuario.id)">
-          <i class="material-icons">edit</i></a></td>
-      <td><a href="javascript: void(0);" class="space" (click)="mostrarImagen(usuario.id)">
-          <i class="material-icons">image </i></a></td>
-      <td><a href="javascript: void(0);" class="material-icons" (click)="eliminarUsuario(usuario.id)">
-          <i class="material-icons">delete_forever</i></a></td>
-    </tr>
-  </tbody>
-</table>
-<div class="row center-align">
-  <pagination-controls class="my-pagination" (pageChange)="p = ($event)" previousLabel="{{'Anterior'|translate}}"
-    nextLabel="{{'Siguiente'|translate}}">
-  </pagination-controls>
-</div>
-
+<div  class="container">
+  <h1>{{"Lista de usuarios" | translate}}</h1>
+  <a class="btn-floating btn-large waves-effect waves-light modal-trigger" data-target="modalCrearUsuario" (click)="crearUsuario()"><i class="material-icons white-text">add</i></a>
+  <p></p>
+  <table class="default" *ngIf="usuarios != undefined">
+    <thead>
+      <tr>
+        <td colspan="1" class="cabeceraTabla">{{"Imagen" | translate}}</td>
+        <td colspan="1" class="cabeceraTabla">{{"Nombre" | translate}}</td>
+        <td colspan="1" class="cabeceraTabla">{{"Correo" | translate}}</td>
+        <td colspan="1" class="cabeceraTabla">{{"Editar" | translate}}</td>
+        <td colspan="1" class="cabeceraTabla">{{"Editar imagen" | translate}}</td>
+        <td colspan="1" class="cabeceraTabla">{{"Eliminar" | translate}}</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios |
+      paginate: {
+      itemsPerPage: pageSize,
+      currentPage: p
+      };let i=index">
+        <!--<td *ngIf="usuario.fotito == 1"><img width="64" src="{{imagenUrls[usuario.id]}}/usuarios/{{usuario.id}}.jpg" alt="{{liga}}/usuarios/1.jpg"></td>-->
+        <td *ngIf="usuario.fotito == 1"><img width="64" src="{{liga}}/usuarios/{{usuario.id}}.jpg"
+            alt="{{liga}}/usuarios/1.jpg"></td>
+        <td *ngIf="usuario.fotito == 0"><img width="64" src="{{liga}}/usuarios/00.jpg" alt="{{liga}}/usuarios/1.jpg"></td>
+        <td>{{usuario.nombre }}</td>
+        <td>{{usuario.correo}}</td>
+        <td><a href="javascript: void(0);" class="space" (click)="actualizarUsuario(usuario.id)">
+            <i class="material-icons">edit</i></a></td>
+        <td><a href="javascript: void(0);" class="space" (click)="mostrarImagen(usuario.id)">
+            <i class="material-icons">image </i></a></td>
+        <td><a href="javascript: void(0);" class="material-icons" (click)="eliminarUsuario(usuario.id)">
+            <i class="material-icons">delete_forever</i></a></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row center-align">
+    <pagination-controls class="my-pagination" (pageChange)="p = ($event)" previousLabel="{{'Anterior'|translate}}"
+      nextLabel="{{'Siguiente'|translate}}">
+    </pagination-controls>
+  </div>
+  </div>
 
 <div id="Imagen" class="modal">
   <div class="modal-content">
