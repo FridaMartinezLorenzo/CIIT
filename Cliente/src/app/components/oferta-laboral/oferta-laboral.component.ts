@@ -56,27 +56,68 @@ export class OfertaLaboralComponent implements OnInit {
       $("#modalModificarOferta").modal("open");
     }, err => console.error(err));
   }
+  
   guardarActualizarOferta() {
-    this.ofertaService.actualizarOferta(this.oferta).subscribe((res) => {
-      $('#modalModificarOferta').modal('close');
-      this.ofertaService.list().subscribe((resOfertas: any) => {
-        this.ofertas = resOfertas;
+    if (
+      this.oferta.id_empresa != 0 &&
+      this.oferta.puesto &&
+      this.oferta.position &&
+      this.oferta.salario &&
+      this.oferta.horario &&
+      this.oferta.descripcion
+    ) {
+      // Todos los campos requeridos están llenos, proceder con la actualización
+      this.ofertaService.actualizarOferta(this.oferta).subscribe((res) => {
+        $('#modalModificarOferta').modal('close');
+        this.ofertaService.list().subscribe((resOfertas: any) => {
+          this.ofertas = resOfertas;
+        }, err => console.error(err));
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: this.translate.instant('Oferta actualizada')
+        })
       }, err => console.error(err));
+    } else {
+      // Mostrar mensaje de advertencia si algún campo requerido está vacío
       Swal.fire({
-        position: 'center',
-        icon: 'success',
-        text: this.translate.instant('Oferta actualizada')
-      })
-    }, err => console.error(err));
+        icon: 'warning',
+        title: this.translate.instant('Campos incompletos'),
+        text: this.translate.instant('Por favor, complete todos los campos requeridos antes de actualizar la oferta.')
+      });
+      // No cerrar el modal si los campos no están completos
+      // (no es necesario agregar código aquí porque el modal ya no se cerrará)
+    }
   }
+  
+  
+  
+  
+  //Cambios en la siguiente función (Jacob):
   crearOferta() {
     this.ofertaNueva = new OfertaLaboral();
+    this.empresaService.list().subscribe((resEmpresa: any) => {
+      this.empresas = resEmpresa;
+      if (this.empresas.length > 0) {
+        this.ofertaNueva.id_empresa = this.empresas[0].id_empresa; // selecciona la primera empresa por defecto
+      }
+      console.log("ofertaNueva.id_empresa click: ", this.ofertaNueva.id_empresa)
+    }, err => console.log(err));
     console.log("oferta nueva")
     $('#modalCrearOferta').modal();
     $("#modalCrearOferta").modal("open");
   }
+  //Hasta acá termminan los cambios
+
   guardarNuevaOferta() {
-    if (this.ofertaNueva.id_empresa != 0) {
+    if (
+      this.ofertaNueva.id_empresa != 0 &&
+      this.ofertaNueva.puesto &&
+      this.ofertaNueva.position &&
+      this.ofertaNueva.salario &&
+      this.ofertaNueva.horario &&
+      this.ofertaNueva.descripcion
+    ) {
       console.log("GuardandoOferta")
       this.ofertaService.crearOferta(this.ofertaNueva).subscribe((res) => {
         $('#modalCrearOferta').modal('close');
@@ -89,15 +130,27 @@ export class OfertaLaboralComponent implements OnInit {
           text: this.translate.instant('Oferta creada')
         })
       }, err => console.error(err));
-    }
-    else {
-      Swal.fire({
-        icon: 'warning',
-        title: this.translate.instant('Empresa no seleccionada'),
-        text: this.translate.instant('Por favor, seleccione una empresa a la que asignar la oferta.')
-      })
+    } else {
+      if (this.ofertaNueva.id_empresa == 0) {
+        // Mostrar alerta si la empresa no ha sido seleccionada
+        Swal.fire({
+          icon: 'warning',
+          title: this.translate.instant('Empresa no seleccionada'),
+          text: this.translate.instant('Por favor, seleccione una empresa a la que asignar la oferta.')
+        });
+      } else {
+        // Mostrar alerta si algún otro campo requerido está vacío
+        Swal.fire({
+          icon: 'warning',
+          title: this.translate.instant('Campos incompletos'),
+          text: this.translate.instant('Por favor, complete todos los campos requeridos.')
+        });
+      }
     }
   }
+  
+  
+
   eliminarOferta(id_oferta: any) {
     console.log("Click en eliminar OfertaLaboral");
     console.log("Identificador del OfertaLaboral: ", id_oferta);

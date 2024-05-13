@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from "@ngx-translate/core";
+
+declare var $: any;
+
 
 @Component({
   selector: 'app-reestablecer-contrasena',
@@ -12,8 +16,9 @@ export class ReestablecerContrasenaComponent implements OnInit {
   token : string = "";
   nuevaContrasena : string = "";
   nuevaContrasenaConfirmacion : string = "";
+  idioma:any;
 
-  constructor(private usuarioService: UsuarioService, private route: ActivatedRoute, private router: Router) {
+  constructor(private router: Router,private usuarioService: UsuarioService, private route: ActivatedRoute,private translate: TranslateService) {
     this.nuevaContrasena = "";
     this.nuevaContrasenaConfirmacion = "";
    }
@@ -23,26 +28,35 @@ export class ReestablecerContrasenaComponent implements OnInit {
       this.token = params['token'];
       console.log(this.token); 
     });
+    $(document).ready(function () { $(".dropdown-trigger").dropdown(); });
+    this.idioma = localStorage.getItem('idioma');
+    this.verificarIdioma();
+  }
 
+  volverInicio(){
+    this.router.navigateByUrl('/login');
   }
 
   actualizarContrasena(){
+    this.idioma = localStorage.getItem('idioma');
+    this.verificarIdioma();
     console.log(this.nuevaContrasena);
     console.log(this.nuevaContrasenaConfirmacion);
 
     if (this.nuevaContrasena == "" || this.nuevaContrasenaConfirmacion == ""){
       Swal.fire({
-        title: 'Error',
-        text: 'Por favor llene todos los campos',
+        title: this.translate.instant('Error'),
+        text: this.translate.instant('Por favor llene todos los campos'),
         icon: 'error',
         confirmButtonText: 'Aceptar'
       })
       return;
     }else{
       if (this.nuevaContrasena != this.nuevaContrasenaConfirmacion){
+        this.verificarIdioma();
         Swal.fire({
-          title: 'Error',
-          text: 'Las contraseñas no coinciden',
+          title: this.translate.instant('Error'),
+          text: this.translate.instant('Las contraseñas no coinciden'),
           icon: 'error',
           confirmButtonText: 'Aceptar'
         })
@@ -50,19 +64,35 @@ export class ReestablecerContrasenaComponent implements OnInit {
       }else{
         this.usuarioService.actualizarContrasena(this.token, this.nuevaContrasena).subscribe((res : any) => {
           console.log(res);
+          this.verificarIdioma();
           Swal.fire({
-            title: 'Actualización exitosa',
-            text: 'Se ha actualizado su contraseña',
+            title: this.translate.instant('Actualización exitosa'),
+            text: this.translate.instant('Se ha actualizado su contraseña'),
             icon: 'success',
             confirmButtonText: 'Aceptar'
           })
-            this.router.navigateByUrl('/login');
         }, err => console.error(err));
       }
 
 
     }
     
+  }
+  setIdioma(idioma:any) {
+    localStorage.removeItem('idioma');
+    if (idioma == 1){
+      this.translate.use("es");
+    }
+    if (idioma == 2){
+      this.translate.use("en");
+    }
+    localStorage.setItem('idioma', idioma.toString());
+  }
+  verificarIdioma(){
+    if(this.idioma == 1)
+      this.translate.use("es");
+    if(this.idioma == 2)
+      this.translate.use("en");
   }
 
 }

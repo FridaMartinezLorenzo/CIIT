@@ -7,7 +7,7 @@
 .form {
     position: relative;
     z-index: 1;
-    background: #D4C19C;
+    background: #13322B;
     max-width: 4500px;
     margin: 0 auto;
     padding: 45px;
@@ -25,26 +25,32 @@
     margin: 0 0 15px;
     padding: 15px;
     font-size: 14px;
+    color: black;
 }
 
 .Titulo{
     padding-bottom: 20px;
     font-family: "Roboto", sans-serif;
+    color: white;
 }
 
 .boton{
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     outline: 0;
-    background: #7E3B3B;
+    background: #9D2449;
     width: 100%;
     border: 0;
     border-radius: 10px;
     padding: 15px;
-    color: #FFFFFF;
+    color: white;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3 ease;
+}
+
+.bandera{
+    color: white;
 }
 
 .volver{
@@ -52,13 +58,14 @@
     text-transform: uppercase;
     margin-top: 20px;
     width: 100%;
-    background: #D4C19C;
+    background: #9D2449;
     border: 0;
     border-radius: 10px;
     padding: 15px;
-    color: #000000;
+    color: white;
     font-size: 14px;
     cursor: pointer;
+    color: white;
 }
 
 .boton:hover{
@@ -66,6 +73,54 @@
 }
 
 .volver:hover{
-    background: #7E3B3B;
-    color: black;
+    background: #4e232e;
+    color: white
+}
+.dropdown-content li>a,
+.dropdown-content li>span {
+color: #ffa400;
+font-family: 'Raleway-Medium', sans-serif;
+}
+.dropdown-content li>span,
+.dropdown-content.idioma-nav li>a,
+.dropdown-content li>span {
+color: #051c49;
+font-size: 14px;
+}
+.dropdown-content.idioma-nav {
+top: 80px !important;
+}
+.dropdown-content li:hover,
+.dropdown-content li.active {
+background-color: #051c49;
+color: #fff;
+}
+.dropdown-content li:hover a,
+.dropdown-content li.active a {
+color: #fff !important;
+}
+.dropdown-content {
+width: 50px !important;
+right: 0px;
+top: 0px;
+height: auto;
+}
+.dropdown-content .bold {
+font-family: 'Raleway-Bold', sans-serif;
+margin-right: 20px;
+width: 30px;
+text-align: right;
+display: block;
+color: #ffa400;
+}
+.select-dropdown li.disabled,
+.select-dropdown li.disabled>span,
+.select-dropdown li.optgroup {
+background: #051c49;
+color: #fff;
+}
+
+.imagen_icono {
+    width: 30px;
+    margin: 0 5px;
 }
