@@ -64,7 +64,8 @@ export class OfertaLaboralComponent implements OnInit {
       this.oferta.position &&
       this.oferta.salario &&
       this.oferta.horario &&
-      this.oferta.descripcion
+      this.oferta.descripcion &&
+      this.oferta.description
     ) {
       // Todos los campos requeridos están llenos, proceder con la actualización
       this.ofertaService.actualizarOferta(this.oferta).subscribe((res) => {
@@ -116,7 +117,8 @@ export class OfertaLaboralComponent implements OnInit {
       this.ofertaNueva.position &&
       this.ofertaNueva.salario &&
       this.ofertaNueva.horario &&
-      this.ofertaNueva.descripcion
+      this.ofertaNueva.descripcion &&
+      this.ofertaNueva.description
     ) {
       console.log("GuardandoOferta")
       this.ofertaService.crearOferta(this.ofertaNueva).subscribe((res) => {
