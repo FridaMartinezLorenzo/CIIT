@@ -148,8 +148,6 @@ export class RedesComponent implements OnInit {
     }, err => console.error(err));
 
   }
-  eliminarred(id:any){}
-  
 
 
 }
