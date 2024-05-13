@@ -1,0 +1,64 @@
+
+<h1>Lista de red</h1>
+<a class="waves-effect waves-light btn modal-trigger" data-target="modalCrearUsuario" >Crear red</a>
+<table class="default" *ngIf="redes != undefined">
+  <tr *ngFor="let red of redes |
+  paginate: {
+  itemsPerPage: pageSize,
+  currentPage: p
+  };let i=index">
+  <!--<td *ngIf="usuario.fotito == 1"><img width="64" src="{{imagenUrls[usuario.id]}}/usuarios/{{usuario.id}}.jpg" alt="{{liga}}/usuarios/1.jpg"></td>-->
+    <td *ngIf="red.foto == 1"><img width="64" src="{{liga}}/usuarios/{{red.id}}.jpg" alt="{{liga}}/usuarios/1.jpg"></td>
+    <td *ngIf="red.foto  == 0"><img width="64" src="{{liga}}/usuarios/00.jpg" alt="{{liga}}/usuarios/1.jpg"></td>
+    <td>{{red.nombre  }}</td>
+    
+    <td><a href="javascript: void(0);" class="space" (click)="actualizarRed(red.id)">
+        <i class="material-icons">edit</i></a></td>
+    <td><a href="javascript: void(0);" class="space" (click)="mostrarImagen(red.id)">
+        <i class="material-icons">image </i></a></td>
+    <td><a href="javascript: void(0);" class="material-icons" (click)="eliminarred(red.id)">
+        <i class="material-icons">delete_forever</i></a></td>
+  </tr>
+</table>
+<div class="row center-align">
+  <pagination-controls class="my-pagination" (pageChange)="p = ($event)" previousLabel="{{'Anterior'|translate}}" nextLabel="{{'Siguiente'|translate}}">
+  </pagination-controls>
+</div>
+
+
+<div id="Imagen" class="modal">
+  <div class="modal-content">
+    <div class="row" style="margin-bottom: 0px !important;">
+      <div class="col s12">
+        <h5 class="center">{{"Imagen"| translate}}</h5>
+      </div>
+    </div>
+    <div style="border: .5px solid #78909c; padding: 10px;">
+      <div class="row">
+        <div class="input-field col s12">
+        <!--
+                  <div align="center">
+            <img *ngIf="usuario.fotito == 1" width="64" src="{{liga}}/usuarios/{{usuario.id}}.jpg" alt="{{liga}}/usuarios/1.jpg">
+            <img *ngIf="usuario.fotito == 0" width="64" src="{{liga}}/usuarios/0.jpg" alt="{{liga}}/usuarios/1.jpg">
+          </div> 
+        </div>
+      -->
+        <div class="input-field col s6">
+          <br><br>
+          <input type="file" (change)="cargandoImagen($event.target)" multiple>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s6 center">
+          <input type="submit" class="waves-effect btn-large brown lighten-3 modal-close"
+            (click)="guardandoImagen()" value="{{'Enviar'|translate}}">
+        </div>
+        <div class="col s6 center">
+          <a class="modal-action modal-close waves-effect btn-large brown lighten-3
+  black-text">{{'Cancelar'|translate}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
