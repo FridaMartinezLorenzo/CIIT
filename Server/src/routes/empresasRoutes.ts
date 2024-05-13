@@ -15,6 +15,11 @@ class EmpresasRoutes {
         this.router.delete('/eliminarEmpresa/:id', empresasController.eliminarEmpresa);
         this.router.get('/ListOneEmpresa/:id', empresasController.listOne);
         this.router.put('/actualizarFotito/:id', empresasController.actualizarFotito);
+        this.router.delete('/eliminar_datos_foto/:id', empresasController.eliminar_datos_foto);
+        this.router.post('/inserta_datos_foto/', empresasController.inserta_datos_foto);
+        this.router.get('/id_fotos_por_empresa/:id', empresasController.id_fotos_por_empresa);
+
+        
 
     }
 }

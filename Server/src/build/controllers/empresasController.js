@@ -15,6 +15,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.empresasController = void 0;
 const database_1 = __importDefault(require("../database")); //acceso a la base de datos
 class EmpresasController {
+    id_fotos_por_empresa(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const respuesta = yield database_1.default.query('SELECT * FROM fotos_empresa WHERE id_empresa = ?', [id]);
+            res.json(respuesta);
+        });
+    }
+    eliminar_datos_foto(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const resp = yield database_1.default.query(`DELETE FROM fotos_empresa WHERE id_foto = ${id}`);
+            res.json(resp);
+        });
+    }
+    inserta_datos_foto(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.body.id;
+            console.log("ESTO ES LO QUE LLEGA EN EL SERVIDOR");
+            console.log(req.body);
+            const respuesta = yield database_1.default.query('INSERT INTO fotos_empresa (id_empresa) VALUES (?)', [id]);
+            res.json(respuesta);
+        });
+    }
     createEmpresa(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(req.body);

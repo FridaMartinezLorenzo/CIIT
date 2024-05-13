@@ -2,6 +2,27 @@ import {Request,Response} from 'express';
 import pool from '../database'; //acceso a la base de datos
 class EmpresasController
 {
+
+    public async id_fotos_por_empresa(req: Request, res: Response ): Promise<void>{
+        const { id } = req.params;
+        const respuesta = await pool.query('SELECT * FROM fotos_empresa WHERE id_empresa = ?', [id]);
+        res.json( respuesta );
+    }
+
+    public async eliminar_datos_foto(req: Request, res: Response): Promise<void> {
+        const { id } = req.params;
+        const resp = await pool.query(`DELETE FROM fotos_empresa WHERE id_foto = ${id}`);
+        res.json(resp);
+    }
+
+    public async inserta_datos_foto(req: Request, res: Response ): Promise<void>{
+        const id = req.body.id;
+        console.log("ESTO ES LO QUE LLEGA EN EL SERVIDOR");
+        console.log(req.body);
+        const respuesta = await pool.query('INSERT INTO fotos_empresa (id_empresa) VALUES (?)',[id]);
+        res.json( respuesta );
+    }
+
     public async createEmpresa(req: Request, res: Response): Promise<void> {
         console.log(req.body)
         const resp = await pool.query("INSERT INTO empresa set ?",[req.body]);
