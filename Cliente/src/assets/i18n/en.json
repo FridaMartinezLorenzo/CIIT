@@ -115,7 +115,14 @@
     "Redes Sociales": "Social Networks",
     "Nueva red social": "New social network",
     "Redes Sciales del CIIT": "CIIT Social Networks",
-    "Foto": "Photo"
+    "Foto": "Photo",
+    "Nombre de la red social": "Social network name",
+    "Enlace de la red social": "Link to social network",
+    "Por favor rellene todos los campos.": "Please fill all inputs.",
+    "Red social agregada": "Social network added",
+    "Enlace": "Link",
+    "Editar red social": "Edit social network",
+    "Red social actualizada": "Social network updated"
 }
     
     

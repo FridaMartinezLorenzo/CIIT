@@ -22,9 +22,9 @@ listOne(id_red : any){
   return this.http.get(`${environment.API_URI}/red_social/obtenerRedSocial/${id_red}`);
 }
 
-crearUsuario(Red:any)
+crearRed(Red:any)
 {
-    console.log("Entrando al servicio de crear Usuario");
+    console.log("Entrando al servicio de crear Red");
 return this.http.post(`${environment.API_URI}/red_social/crearRedSocial/`,Red);
 }
 

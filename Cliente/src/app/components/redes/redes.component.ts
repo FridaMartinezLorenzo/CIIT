@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ChangeDetectorRef } from '@angular/core';
 import { CambioIdiomaService } from 'src/app/services/cambio-idioma.service';
 import { ImagenesService } from 'src/app/services/imagenes.service';
+import { TranslateService } from '@ngx-translate/core';
 declare var $: any;
 @Component({
   selector: 'app-redes',
@@ -14,6 +15,7 @@ declare var $: any;
 })
 export class RedesComponent implements OnInit {
   red: Redsocial = new Redsocial();
+  redNueva: Redsocial = new Redsocial();
   pageSize = 4;
   p = 1;
   liga = '';
@@ -23,7 +25,7 @@ export class RedesComponent implements OnInit {
   imagenUrls: { [id: number]: string } = {};
   idioma: any = 1;
   redes: Redsocial[] = [];
-  constructor( private redService:RedesService, private cambioIdiomaService: CambioIdiomaService, private imagenesService: ImagenesService) {
+  constructor(private redService: RedesService, private cambioIdiomaService: CambioIdiomaService, private imagenesService: ImagenesService, private translate: TranslateService) {
     this.liga = environment.API_URI_IMAGES;
     this.redService.list().subscribe((red_social: any) => {
       this.redes = red_social
@@ -38,8 +40,7 @@ export class RedesComponent implements OnInit {
     });
 
   }
-
-    eliminarRed(id: any) {
+  eliminarRed(id: any) {
     if (this.idioma == 2) {
       Swal.fire({
         title: "Are you sure you want to delete?",
@@ -50,14 +51,16 @@ export class RedesComponent implements OnInit {
         cancelButtonText: "Cancel"
       }).then((result) => {
         if (result.isConfirmed) {
-          this.redService.eliminarRed(id).subscribe((red_social: any) => {
-            this.redes = red_social;
+          this.redService.eliminarRed(id).subscribe((res: any) => {
+            this.redService.list().subscribe((resRedes: any) => {
+              this.redes = resRedes;
+            }, err => console.error(err));
           }, err => console.error(err));
           Swal.fire(
             'Deleted',
             'The social network has been deleted',
             'success'
-          ).then(() => window.location.reload());
+          );
         }
       });
     } else {
@@ -70,23 +73,25 @@ export class RedesComponent implements OnInit {
         cancelButtonText: "Cancelar"
       }).then((result) => {
         if (result.isConfirmed) {
-          this.redService.eliminarRed(id).subscribe((red_social: any) => {
-            this.redes = red_social;
+          this.redService.eliminarRed(id).subscribe((res: any) => {
+            this.redService.list().subscribe((resRedes: any) => {
+              this.redes = resRedes;
+            }, err => console.error(err));
           }, err => console.error(err));
           Swal.fire(
             'Eliminado',
             'La red social ha sido eliminada',
             'success'
-          ).then(() => window.location.reload());
+          );
         }
       });
     }
   }
 
-  cambiarIdioma(){
+  cambiarIdioma() {
   }
   // actualizarFoto(id: any) {}
-  guardandoImagen(){
+  guardandoImagen() {
     // this.imgUsuario = null;
     //this.fileToUpload = null;
     let imgPromise = this.getFileBlob(this.fileToUpload);
@@ -158,10 +163,38 @@ export class RedesComponent implements OnInit {
     this.fileToUpload = archivo.files.item(0);
     console.log("convirtiendo imagen");
   }
-  actualizarRed(id:any) {
-
+  actualizarRed(id: any) {
+    this.redService.listOne(id).subscribe((resRed: any) => {
+      this.red = resRed;
+      $("#editarRed").modal();
+      $("#editarRed").modal("open");
+    }, err => console.error(err));
   }
-  mostrarImagen(id:any){
+
+  guardarRedEditada() {
+    if (this.red.nombre != '' && this.red.enlace != '') {
+      this.redService.actualizarRed(this.red).subscribe((res: any) => {
+        $("#editarRed").modal("close");
+        this.redService.list().subscribe((resRedes: any) => {
+          this.redes = resRedes;
+        }, err => console.error(err));
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: this.translate.instant('Red social actualizada')
+        })
+      }, err => console.error(err));
+    }
+    else {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: this.translate.instant('Por favor rellene todos los campos.')
+      });
+    }
+  }
+
+  mostrarImagen(id: any) {
     this.imgUsuario = null;
     this.fileToUpload = null;
     this.redService.listOne(id).subscribe((resRed: any) => {
@@ -172,6 +205,37 @@ export class RedesComponent implements OnInit {
     }, err => console.error(err));
 
   }
+
+  agregarRed() {
+    this.redNueva = new Redsocial();
+    $("#nuevaRed").modal();
+    $("#nuevaRed").modal("open");
+  }
+
+  guardarRed() {
+    if (this.redNueva.nombre != '' && this.redNueva.enlace != '') {
+      console.log("Entró a agregar Red");
+      this.redService.crearRed(this.redNueva).subscribe((res) => {
+        $("#nuevaRed").modal("close");
+        this.redService.list().subscribe((resRedes: any) => {
+          this.redes = resRedes;
+        }, err => console.error(err));
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          text: this.translate.instant('Red social agregada')
+        });
+      }, err => console.error(err));
+    }
+    else {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: this.translate.instant('Por favor rellene todos los campos.')
+      });
+    }
+  }
+
 
 
 }
