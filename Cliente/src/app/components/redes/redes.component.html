@@ -62,12 +62,18 @@
         </div>
         <div class="row">
           <div class="col s6 center">
-            <input type="submit" class="waves-effect btn-large brown lighten-3 modal-close" (click)="guardandoImagen()"
-              value="{{'Enviar'|translate}}">
+            <button class="waves-effect btn-large custom-button white-text modal-close" type="submit"
+              (click)="guardandoImagen()">
+              {{"Enviar" | translate}}
+              <i class="material-icons right colorwhite">send</i>
+            </button>
           </div>
+
           <div class="col s6 center">
-            <a class="modal-action modal-close waves-effect btn-large brown lighten-3
-  black-text">{{'Cancelar'|translate}}</a>
+            <button class="modal-action modal-close waves-effect btn-large buttonRed white-text"
+              type="submit">{{"Cancelar" | translate}}
+              <i class="material-icons right colorwhite">cancel</i>
+            </button>
           </div>
         </div>
       </div>

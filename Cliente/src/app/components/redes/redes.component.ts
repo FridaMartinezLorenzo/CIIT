@@ -96,7 +96,7 @@ export class RedesComponent implements OnInit {
       );
     });
 
-    if (this.idioma == 1) {
+    if (this.idioma == 2) {
       Swal.fire({
         title: "Updated",
         text: "Your image has been updated",
