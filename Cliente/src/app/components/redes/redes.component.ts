@@ -38,27 +38,51 @@ export class RedesComponent implements OnInit {
     });
 
   }
-  eliminarRed(id: any) {
-    Swal.fire({
-      title: '¿Estás seguro de eliminar?',
-      text: 'No podrás recuperar la información',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.redService.eliminarRed(id).subscribe((red_social: any) => {
-          this.redes = red_social
-        }, err => console.error(err));
-        Swal.fire(
-          'Eliminado',
-          'La red social ha sido eliminada',
-          'success'
-        )
-      }
-    })
+
+    eliminarRed(id: any) {
+    if (this.idioma == 2) {
+      Swal.fire({
+        title: "Are you sure you want to delete?",
+        text: "You won't be able to recover the information",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete",
+        cancelButtonText: "Cancel"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.redService.eliminarRed(id).subscribe((red_social: any) => {
+            this.redes = red_social;
+          }, err => console.error(err));
+          Swal.fire(
+            'Deleted',
+            'The social network has been deleted',
+            'success'
+          ).then(() => window.location.reload());
+        }
+      });
+    } else {
+      Swal.fire({
+        title: "¿Estás seguro de eliminar?",
+        text: "No podrás recuperar la información",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.redService.eliminarRed(id).subscribe((red_social: any) => {
+            this.redes = red_social;
+          }, err => console.error(err));
+          Swal.fire(
+            'Eliminado',
+            'La red social ha sido eliminada',
+            'success'
+          ).then(() => window.location.reload());
+        }
+      });
+    }
   }
+
   cambiarIdioma(){
   }
   // actualizarFoto(id: any) {}
