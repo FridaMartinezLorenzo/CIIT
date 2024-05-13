@@ -1,28 +1,40 @@
+<div class="container">
+  <h1>{{ "Redes Sciales del CIIT" | translate}}</h1>
+  <a class="btn-floating btn-large waves-effect waves-light custom-btn" href="javascript: void(0);"><i
+      class="material-icons">add</i></a>
+  <table class="default moved-table iconos-table" *ngIf="redes != undefined">
+    <thead>
+      <tr>
+        <th class="header-color" style="width: 20%">{{"Foto" | translate}}</th>
+        <th class="header-color" style="width: 40%">{{"Nombre" | translate}}</th>
+        <th class="header-color" style="width: 10%">{{"Editar" | translate}}</th>
+        <th class="header-color" style="width: 10%">{{"Imagen" | translate}}</th>
+        <th class="header-color" style="width: 10%">{{"Eliminar" | translate}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let red of redes | paginate: { itemsPerPage: pageSize, currentPage: p }; let i=index">
+        <td *ngIf="red.foto == 1" style="width: 20%"><img width="64" src="{{liga}}/red/{{red.id}}.jpg"
+            alt="{{liga}}/usuarios/1.jpg"></td>
+        <td *ngIf="red.foto == 0" style="width: 20%"><img width="64" src="{{liga}}/red/00.jpg"
+            alt="{{liga}}/usuarios/0.jpg"></td>
+        <td style="width: 40%">{{red.nombre}}</td>
 
-<h1>Lista de redes</h1>
-<a class="waves-effect waves-light btn modal-trigger" data-target="modalCrearUsuario" >Nueva red social</a>
-<table class="default" *ngIf="redes != undefined">
-  <tr *ngFor="let red of redes |
-  paginate: {
-  itemsPerPage: pageSize,
-  currentPage: p
-  };let i=index">
-  <!--<td *ngIf="usuario.fotito == 1"><img width="64" src="{{imagenUrls[usuario.id]}}/usuarios/{{usuario.id}}.jpg" alt="{{liga}}/usuarios/1.jpg"></td>-->
-    <td *ngIf="red.foto == 1"><img width="64" src="{{liga}}/red/{{red.id}}.jpg" alt="{{liga}}/usuarios/1.jpg"></td>
-    <td *ngIf="red.foto  == 0"><img width="64" src="{{liga}}/red/00.jpg" alt="{{liga}}/usuarios/0.jpg"></td>
-    <td>{{red.nombre  }}</td>
-    
-    <td><a href="javascript: void(0);" class="space" (click)="actualizarRed(red.id)">
-        <i class="material-icons">edit</i></a></td>
-    <td><a href="javascript: void(0);" class="space" (click)="mostrarImagen(red.id)">
-        <i class="material-icons">image </i></a></td>
-    <td><a href="javascript: void(0);" class="material-icons" (click)="eliminarRed(red.id)">
-        <i class="material-icons">delete_forever</i></a></td>
-  </tr>
-</table>
-<div class="row center-align">
-  <pagination-controls class="my-pagination" (pageChange)="p = ($event)" previousLabel="{{'Anterior'|translate}}" nextLabel="{{'Siguiente'|translate}}">
-  </pagination-controls>
+        <td style="width: 10%"><a href="javascript: void(0);" class="space" (click)="actualizarRed(red.id)">
+            <i class="material-icons">edit</i></a></td>
+        <td style="width: 10%"><a href="javascript: void(0);" class="space" (click)="mostrarImagen(red.id)">
+            <i class="material-icons">image</i></a></td>
+        <td style="width: 10%"><a href="javascript: void(0);" class="material-icons" (click)="eliminarRed(red.id)">
+            <i class="material-icons">delete_forever</i></a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row center-align">
+    <pagination-controls class="my-pagination" (pageChange)="p = ($event)" previousLabel="{{'Anterior'|translate}}"
+      nextLabel="{{'Siguiente'|translate}}">
+    </pagination-controls>
+  </div>
 </div>
 
 
@@ -36,29 +48,29 @@
     <div style="border: .5px solid #78909c; padding: 10px;">
       <div class="row">
         <div class="input-field col s12">
-        <!--
+          <!--
                   <div align="center">
             <img *ngIf="usuario.fotito == 1" width="64" src="{{liga}}/usuarios/{{usuario.id}}.jpg" alt="{{liga}}/usuarios/1.jpg">
             <img *ngIf="usuario.fotito == 0" width="64" src="{{liga}}/usuarios/0.jpg" alt="{{liga}}/usuarios/1.jpg">
           </div> 
         </div>
       -->
-        <div class="input-field col s6">
-          <br><br>
-          <input type="file" (change)="cargandoImagen($event.target)" multiple>
+          <div class="input-field col s6">
+            <br><br>
+            <input type="file" (change)="cargandoImagen($event.target)" multiple>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col s6 center">
-          <input type="submit" class="waves-effect btn-large brown lighten-3 modal-close"
-            (click)="guardandoImagen()" value="{{'Enviar'|translate}}">
-        </div>
-        <div class="col s6 center">
-          <a class="modal-action modal-close waves-effect btn-large brown lighten-3
+        <div class="row">
+          <div class="col s6 center">
+            <input type="submit" class="waves-effect btn-large brown lighten-3 modal-close" (click)="guardandoImagen()"
+              value="{{'Enviar'|translate}}">
+          </div>
+          <div class="col s6 center">
+            <a class="modal-action modal-close waves-effect btn-large brown lighten-3
   black-text">{{'Cancelar'|translate}}</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
