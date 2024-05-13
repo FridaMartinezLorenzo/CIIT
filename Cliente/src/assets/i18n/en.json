@@ -110,7 +110,11 @@
     "Ingrese su nueva contraseña":"Enter your new password",
     "Nueva Contraseña": "New password",
     "Contraseña Anterior": "Old password",
-    "CONFIRMAR": "CONFIRM"   
+    "CONFIRMAR": "CONFIRM",
+    
+    "Redes Sociales": "Social Networks",
+    "Nueva red social": "New social network",
+    "Redes Sciales del CIIT": "CIIT Social Networks"
 }
     
     
