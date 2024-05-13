@@ -111,7 +111,9 @@
     "Nueva Contraseña": "New password",
     "Contraseña Anterior": "Old password",
     "CONFIRMAR": "CONFIRM",
-    "Nombre del rol": "Role name" 
+    "Nombre del rol": "Role name",
+    "Nombre Rol en Español" : "Name Rol in Spanish",
+    "Nombre Rol en Inglés": "Name Rol in English"
 }
     
     
