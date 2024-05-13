@@ -58,12 +58,11 @@
         </div>
         <div class="row">
           <div class="col s6 center">
-            <input type="submit" class="waves-effect btn-large brown lighten-3 modal-close" (click)="guardandoImagen()"
-              value="{{'Enviar'|translate}}">
+           <button class="waves-effect btn-large brown lighten-3 modal-close" (click)="guardandoImagen()">{{'Enviar'|translate}}</button>
           </div>
           <div class="col s6 center">
-            <a class="modal-action modal-close waves-effect btn-large brown lighten-3
-  black-text">{{'Cancelar'|translate}}</a>
+            <button class="modal-action modal-close waves-effect btn-large brown lighten-3">{{'Cancelar'|translate}}</button>
+
           </div>
         </div>
       </div>
@@ -103,12 +102,11 @@
       </div>
       <div class="row">
         <div class="col s6 center">
-          <a class="waves-effect btn-large brown lighten-3 modal-close black-text"
-            (click)="guardarActualizarUsuario()">{{'Enviar'|translate}} </a>
+          <button class="waves-effect btn-large brown lighten-3 modal-close black-text" (click)="guardarActualizarUsuario()">{{'Enviar'|translate}}</button>
         </div>
         <div class="col s6 center">
-          <a class="modal-action modal-close waves-effect btn-large brown lighten-3
-  black-text">{{'Cancelar'|translate}}</a>
+          <button class="modal-action modal-close waves-effect btn-large brown lighten-3
+          black-text">{{'Cancelar'|translate}}></button>
         </div>
       </div>
     </div>
@@ -124,15 +122,6 @@
       </div>
     </div>
     <div style="border: .5px solid #78909c; padding: 10px;">
-      <div class="row1">
-        <!-- <div>
-          <img *ngIf="this.fileToUpload==null" width="80" src="{{liga}}/usuarios/00.jpg" alt="{{liga}}/usuarios/1.jpg">
-           <img *ngIf="urlImagen" [src]="urlImagen" width="80" alt="Imagen seleccionada"> 
-
-        </div> -->
-        <input type="file" (change)="cargandoImagen($event.target)" multiple>
-      </div>
-
       <div class="row">
         <div class="input-field col s12">
           <label class="active" for="nombre_usuario">{{'Nombre'|translate}}</label>
