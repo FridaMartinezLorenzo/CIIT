@@ -15,7 +15,7 @@ list() {
 
 
 
-eliminarRed(id : any){ 
+eliminarRed(id : any){
   return this.http.delete(`${environment.API_URI}/red_social/eliminarRedSocial/${id}`);
 }
 listOne(id_red : any){
@@ -34,11 +34,9 @@ return this.http.put(`${environment.API_URI}/red_social/actualizarRedSocial/${Re
 Red);
 }
 
-
-
-// actualizarFoto(Red:any)
-// {
-// return this.http.put(`${environment.API_URI}/usuarios/actualizarFotito/${usuario.id}`,
-// usuario);
-// }
+actualizarFoto(red:any)
+{
+return this.http.put(`${environment.API_URI}/red_social/actualizarFoto/${red.id}`,
+red);
+}
 }

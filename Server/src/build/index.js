@@ -11,6 +11,7 @@ const ofertaLaboralRoutes_1 = __importDefault(require("./routes/ofertaLaboralRou
 const rolesRoutes_1 = __importDefault(require("./routes/rolesRoutes"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
+const redesRoutes_1 = __importDefault(require("./routes/redesRoutes"));
 //import swaggerDocument from './swagger.json';
 class Server {
     constructor() {
@@ -32,6 +33,7 @@ class Server {
         this.app.use('/api/empresas', empresasRoutes_1.default);
         this.app.use('/api/ofertaLaboral', ofertaLaboralRoutes_1.default);
         this.app.use('/api/roles', rolesRoutes_1.default);
+        this.app.use('/api/red_social', redesRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
