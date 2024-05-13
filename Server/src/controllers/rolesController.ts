@@ -35,20 +35,24 @@ class RolesController
 
     public async eliminarRol(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
-
         // Obtener nombre_rol del rol que se va a eliminar
         const respNombreRol = await pool.query(`SELECT nombre_rol FROM roles WHERE id_rol = ${id}`);
         const nombreRol = respNombreRol[0]?.nombre_rol;
 
-        // Eliminar ofertas laborales donde aparezca el nombre del rol en el campo puesto
-        await pool.query(`DELETE FROM ofertalaboral WHERE puesto = '${nombreRol}'`);
-
-        // Eliminar usuarios con el mismo id_rol
-        await pool.query(`DELETE FROM usuarios WHERE id_rol = ${id}`);
-
+        //Buscar si existen ofertas laborales asociadas al rol
+        const ofertasLaborales = await pool.query(`SELECT * FROM ofertalaboral, roles WHERE "${nombreRol}" = ofertalaboral.puesto LIMIT 1`);
+        if (ofertasLaborales[0] != null) {
+            res.json({ exito: -1,  message: 'No se puede eliminar el rol porque existen ofertas laborales asociadas a este rol' });
+            return;
+        }
+        //Buscamos si hay usuarios con ese rol
+        const usuarios = await pool.query(`SELECT * FROM usuarios WHERE id_rol = ${id} LIMIT 1`);
+        if (usuarios[0] != null) {
+            res.json({ exito: -1, message: 'No se puede eliminar el rol porque existen usuarios asociados a este rol' });
+            return;
+        }
         // Eliminar el rol
         const resp = await pool.query(`DELETE FROM roles WHERE id_rol = ${id}`);
-
         res.json(resp);
     }
 }
