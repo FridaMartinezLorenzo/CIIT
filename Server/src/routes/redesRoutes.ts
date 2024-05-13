@@ -15,6 +15,7 @@ class RedesRoutes
         this.router.post('/crearRedSocial/',red_socialController.createRedSocial);
         this.router.put('/actualizarRedSocial/:id',red_socialController.actualizarRedSocial);
         this.router.delete('/eliminarRedSocial/:id',red_socialController.eliminarRedSocial);
+        this.router.put('/actualizarFoto/:id',red_socialController.actualizarFoto);
 
     }
 }

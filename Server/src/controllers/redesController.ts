@@ -38,6 +38,12 @@ class RedSocialController
         const resp = await pool.query(`DELETE FROM red_social WHERE id = ${id}`);
         res.json(resp);
     }
+    public async actualizarFoto(req: Request, res: Response): Promise<void> {
+        const { id } = req.params;
+        console.log(id);
+        const resp = await pool.query("UPDATE red_social set foto = 1 WHERE id = ?", [id]);
+        res.json(resp);
+    }
 }
 
 export const red_socialController = new RedSocialController();
