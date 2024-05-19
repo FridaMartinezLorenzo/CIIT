@@ -21,7 +21,7 @@ class Server {
     }
 
     config(): void {
-        this.app.set('port', process.env.PORT || 80); //En que puerto va a ejecutar
+        this.app.set('port', process.env.PORT || 3000); //En que puerto va a ejecutar
         this.app.use(morgan('dev')); //que ejecutamos y que tiempo
         this.app.use(cors());
         this.app.use(express.json()); //permite que utilicemos json

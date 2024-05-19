@@ -21,7 +21,7 @@ class Server {
     config(): void {
         this.app.use(express.urlencoded({ limit: '50mb', parameterLimit: 100000, extended: false }));
         this.app.use(express.json({ limit: '50mb' }));
-        this.app.set('port', process.env.PORT || 8080);
+        this.app.set('port', process.env.PORT || 3001);
         this.app.use(morgan('dev'));
         this.app.use(cors());
         this.app.use(express.urlencoded({ extended: false }));

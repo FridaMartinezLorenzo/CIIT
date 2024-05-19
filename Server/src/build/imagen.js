@@ -19,7 +19,7 @@ class Server {
     config() {
         this.app.use(express_1.default.urlencoded({ limit: '50mb', parameterLimit: 100000, extended: false }));
         this.app.use(express_1.default.json({ limit: '50mb' }));
-        this.app.set('port', process.env.PORT || 8081);
+        this.app.set('port', process.env.PORT || 3003);
         this.app.use((0, morgan_1.default)('dev'));
         this.app.use((0, cors_1.default)());
         this.app.use(express_1.default.urlencoded({ extended: false }));
